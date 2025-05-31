@@ -14,41 +14,64 @@ const InfrastructureStep: React.FC = () => {
   const { infrastructureData } = state;
   const { toast } = useToast();
 
-  const tools = [
-    { id: 'crm', label: 'CRM (Salesforce, etc)' },
-    { id: 'erp', label: 'ERP (SAP, etc)' },
-    { id: 'spreadsheets', label: 'Planilhas' },
-    { id: 'bi', label: 'BI Tools' },
-    { id: 'project-management', label: 'Gestão de Projetos' },
-    { id: 'other', label: 'Outro' }
+  const toolsUsed = [
+    { id: 'crm', label: 'CRM (Salesforce, HubSpot, Pipedrive)', category: 'Vendas' },
+    { id: 'erp', label: 'ERP (SAP, Oracle, Totvs)', category: 'Gestão' },
+    { id: 'spreadsheets', label: 'Planilhas (Excel, Google Sheets)', category: 'Análise' },
+    { id: 'bi', label: 'BI Tools (Power BI, Tableau, Looker)', category: 'Análise' },
+    { id: 'project-management', label: 'Gestão de Projetos (Asana, Monday, Jira)', category: 'Produtividade' },
+    { id: 'accounting', label: 'Contabilidade (QuickBooks, Xero)', category: 'Financeiro' },
+    { id: 'hr-tools', label: 'RH (BambooHR, Workday)', category: 'Recursos Humanos' },
+    { id: 'other', label: 'Outras ferramentas', category: 'Outros' }
   ];
 
-  const databases = [
-    { id: 'sql', label: 'SQL' },
-    { id: 'mongodb', label: 'MongoDB' },
-    { id: 'postgresql', label: 'PostgreSQL' },
-    { id: 'oracle', label: 'Oracle' },
-    { id: 'mysql', label: 'MySQL' },
-    { id: 'firebase', label: 'Firebase' },
-    { id: 'none', label: 'Nenhum' },
+  const databaseTypes = [
+    { id: 'sql', label: 'SQL Server', description: 'Microsoft SQL Server' },
+    { id: 'mysql', label: 'MySQL', description: 'Sistema de gerenciamento open source' },
+    { id: 'postgresql', label: 'PostgreSQL', description: 'Banco de dados relacional avançado' },
+    { id: 'mongodb', label: 'MongoDB', description: 'Banco de dados NoSQL' },
+    { id: 'oracle', label: 'Oracle', description: 'Sistema empresarial da Oracle' },
+    { id: 'firebase', label: 'Firebase', description: 'Plataforma do Google' },
+    { id: 'none', label: 'Nenhum banco específico', description: 'Apenas arquivos ou planilhas' }
   ];
 
-  const integrations = [
-    { id: 'zapier', label: 'Zapier' },
-    { id: 'hubspot', label: 'HubSpot' },
-    { id: 'notion', label: 'Notion' },
-    { id: 'power-bi', label: 'Power BI' },
-    { id: 'google-analytics', label: 'Google Analytics' },
-    { id: 'slack', label: 'Slack' },
-    { id: 'microsoft-teams', label: 'Microsoft Teams' },
-    { id: 'other', label: 'Outro' }
+  const apiIntegrations = [
+    { id: 'zapier', label: 'Zapier', description: 'Automação de workflows' },
+    { id: 'hubspot', label: 'HubSpot', description: 'CRM e Marketing' },
+    { id: 'notion', label: 'Notion', description: 'Workspace colaborativo' },
+    { id: 'power-bi', label: 'Power BI', description: 'Business Intelligence' },
+    { id: 'google-analytics', label: 'Google Analytics', description: 'Análise web' },
+    { id: 'slack', label: 'Slack', description: 'Comunicação empresarial' },
+    { id: 'microsoft-teams', label: 'Microsoft Teams', description: 'Colaboração Microsoft' },
+    { id: 'salesforce', label: 'Salesforce', description: 'CRM empresarial' },
+    { id: 'other', label: 'Outras integrações', description: 'APIs customizadas' }
   ];
 
   const maturityLevels = [
-    { id: 'beginner', label: 'Iniciante', description: 'Começando a jornada digital' },
-    { id: 'intermediate', label: 'Intermediário', description: 'Sistemas implementados, mas não totalmente integrados' },
-    { id: 'advanced', label: 'Avançado', description: 'Sistemas integrados com análise de dados' },
-    { id: 'expert', label: 'Especialista', description: 'Transformação digital completa e orientada por dados' }
+    { 
+      id: 'beginner', 
+      label: 'Iniciante', 
+      description: 'Processos principalmente manuais, poucos sistemas digitais',
+      details: 'Planilhas, e-mails, documentos físicos'
+    },
+    { 
+      id: 'intermediate', 
+      label: 'Intermediário', 
+      description: 'Alguns sistemas implementados, mas não integrados',
+      details: 'CRM, ERP básico, algumas automações'
+    },
+    { 
+      id: 'advanced', 
+      label: 'Avançado', 
+      description: 'Sistemas integrados com análise de dados',
+      details: 'APIs, dashboards, processos automatizados'
+    },
+    { 
+      id: 'expert', 
+      label: 'Especialista', 
+      description: 'Transformação digital completa e orientada por dados',
+      details: 'IA, machine learning, análise preditiva'
+    }
   ];
 
   const handleToolChange = (id: string, checked: boolean) => {
@@ -102,124 +125,162 @@ const InfrastructureStep: React.FC = () => {
 
   return (
     <div className="form-section">
-      <div className="mb-6">
-        <h2 className="text-2xl font-semibold text-nowgo-gray">Infraestrutura Digital</h2>
-        <p className="text-muted-foreground">Nos conte sobre o ambiente digital da sua empresa</p>
+      <div className="mb-8">
+        <h2 className="text-3xl font-bold text-nowgo-gray mb-2">Infraestrutura Digital</h2>
+        <p className="text-muted-foreground text-lg">Nos conte sobre o ambiente digital da sua empresa</p>
       </div>
 
-      <div className="form-full-row">
-        <Label className="mb-2 block">Ferramentas Utilizadas</Label>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
-          {tools.map(tool => (
-            <div key={tool.id} className="flex items-start space-x-2">
-              <Checkbox
-                id={`tool-${tool.id}`}
-                checked={infrastructureData.toolsUsed.includes(tool.id)}
-                onCheckedChange={(checked) => handleToolChange(tool.id, checked === true)}
-              />
-              <Label
-                htmlFor={`tool-${tool.id}`}
-                className="text-sm font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                {tool.label}
-              </Label>
-            </div>
-          ))}
-        </div>
-        {infrastructureData.toolsUsed.includes('other') && (
-          <div className="mt-2 mb-4">
-            <Input
-              placeholder="Especifique outras ferramentas"
-              value={infrastructureData.customTool}
-              onChange={(e) => updateInfrastructureData({ customTool: e.target.value })}
-            />
+      <div className="space-y-8">
+        <div className="bg-white rounded-lg border p-6">
+          <Label className="text-lg font-semibold mb-4 block text-nowgo-gray">Ferramentas Utilizadas</Label>
+          <p className="text-sm text-muted-foreground mb-4">Selecione as principais ferramentas que sua empresa utiliza</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {toolsUsed.map(tool => (
+              <div key={tool.id} className="flex items-start space-x-3 p-3 rounded-md hover:bg-gray-50 transition-colors">
+                <Checkbox
+                  id={`tool-${tool.id}`}
+                  checked={infrastructureData.toolsUsed.includes(tool.id)}
+                  onCheckedChange={(checked) => handleToolChange(tool.id, checked === true)}
+                  className="mt-0.5"
+                />
+                <div className="flex-1">
+                  <Label
+                    htmlFor={`tool-${tool.id}`}
+                    className="text-sm font-medium leading-relaxed cursor-pointer block"
+                  >
+                    {tool.label}
+                  </Label>
+                  <span className="text-xs text-muted-foreground">{tool.category}</span>
+                </div>
+              </div>
+            ))}
           </div>
-        )}
-      </div>
-
-      <div className="form-full-row">
-        <Label className="mb-2 block">Tipo de Banco de Dados</Label>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-          {databases.map(db => (
-            <div key={db.id} className="flex items-start space-x-2">
-              <Checkbox
-                id={`db-${db.id}`}
-                checked={infrastructureData.databaseType.includes(db.id)}
-                onCheckedChange={(checked) => handleDatabaseChange(db.id, checked === true)}
-              />
-              <Label
-                htmlFor={`db-${db.id}`}
-                className="text-sm font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                {db.label}
+          
+          {infrastructureData.toolsUsed.includes('other') && (
+            <div className="mt-4">
+              <Label htmlFor="custom-tool" className="text-sm font-medium mb-2 block">
+                Especifique outras ferramentas
               </Label>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="form-full-row">
-        <Label className="mb-2 block">Integrações API</Label>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-          {integrations.map(integration => (
-            <div key={integration.id} className="flex items-start space-x-2">
-              <Checkbox
-                id={`integration-${integration.id}`}
-                checked={infrastructureData.apiIntegrations.includes(integration.id)}
-                onCheckedChange={(checked) => handleIntegrationChange(integration.id, checked === true)}
+              <Input
+                id="custom-tool"
+                placeholder="Descreva outras ferramentas utilizadas"
+                value={infrastructureData.customTool}
+                onChange={(e) => updateInfrastructureData({ customTool: e.target.value })}
+                className="max-w-md"
               />
-              <Label
-                htmlFor={`integration-${integration.id}`}
-                className="text-sm font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                {integration.label}
-              </Label>
             </div>
-          ))}
+          )}
         </div>
-        {infrastructureData.apiIntegrations.includes('other') && (
-          <div className="mt-2 mb-4">
-            <Input
-              placeholder="Especifique outras integrações"
-              value={infrastructureData.customIntegration}
-              onChange={(e) => updateInfrastructureData({ customIntegration: e.target.value })}
-            />
+
+        <div className="bg-white rounded-lg border p-6">
+          <Label className="text-lg font-semibold mb-4 block text-nowgo-gray">Tipo de Banco de Dados</Label>
+          <p className="text-sm text-muted-foreground mb-4">Selecione os bancos de dados utilizados</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {databaseTypes.map(db => (
+              <div key={db.id} className="flex items-start space-x-3 p-3 rounded-md hover:bg-gray-50 transition-colors">
+                <Checkbox
+                  id={`db-${db.id}`}
+                  checked={infrastructureData.databaseType.includes(db.id)}
+                  onCheckedChange={(checked) => handleDatabaseChange(db.id, checked === true)}
+                  className="mt-0.5"
+                />
+                <div className="flex-1">
+                  <Label
+                    htmlFor={`db-${db.id}`}
+                    className="text-sm font-medium leading-relaxed cursor-pointer block"
+                  >
+                    {db.label}
+                  </Label>
+                  <span className="text-xs text-muted-foreground">{db.description}</span>
+                </div>
+              </div>
+            ))}
           </div>
-        )}
-      </div>
+        </div>
 
-      <div className="form-full-row">
-        <Label className="mb-4 block">Nível de Maturidade Digital *</Label>
-        <RadioGroup
-          value={infrastructureData.digitalMaturityLevel}
-          onValueChange={(value) => updateInfrastructureData({ digitalMaturityLevel: value })}
-          className="space-y-4"
-        >
-          {maturityLevels.map(level => (
-            <div key={level.id} className="flex items-center space-x-2">
-              <RadioGroupItem value={level.id} id={`maturity-${level.id}`} />
-              <Label htmlFor={`maturity-${level.id}`} className="font-medium">
-                {level.label}
-                <span className="block text-sm text-muted-foreground font-normal">{level.description}</span>
+        <div className="bg-white rounded-lg border p-6">
+          <Label className="text-lg font-semibold mb-4 block text-nowgo-gray">Integrações API</Label>
+          <p className="text-sm text-muted-foreground mb-4">Selecione as integrações existentes ou planejadas</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {apiIntegrations.map(integration => (
+              <div key={integration.id} className="flex items-start space-x-3 p-3 rounded-md hover:bg-gray-50 transition-colors">
+                <Checkbox
+                  id={`integration-${integration.id}`}
+                  checked={infrastructureData.apiIntegrations.includes(integration.id)}
+                  onCheckedChange={(checked) => handleIntegrationChange(integration.id, checked === true)}
+                  className="mt-0.5"
+                />
+                <div className="flex-1">
+                  <Label
+                    htmlFor={`integration-${integration.id}`}
+                    className="text-sm font-medium leading-relaxed cursor-pointer block"
+                  >
+                    {integration.label}
+                  </Label>
+                  <span className="text-xs text-muted-foreground">{integration.description}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          {infrastructureData.apiIntegrations.includes('other') && (
+            <div className="mt-4">
+              <Label htmlFor="custom-integration" className="text-sm font-medium mb-2 block">
+                Especifique outras integrações
               </Label>
+              <Input
+                id="custom-integration"
+                placeholder="Descreva outras integrações ou APIs utilizadas"
+                value={infrastructureData.customIntegration}
+                onChange={(e) => updateInfrastructureData({ customIntegration: e.target.value })}
+                className="max-w-md"
+              />
             </div>
-          ))}
-        </RadioGroup>
+          )}
+        </div>
+
+        <div className="bg-white rounded-lg border p-6">
+          <Label className="text-lg font-semibold mb-4 block text-nowgo-gray">
+            Nível de Maturidade Digital *
+          </Label>
+          <p className="text-sm text-muted-foreground mb-6">
+            Avalie o nível atual de digitalização da sua empresa
+          </p>
+          <RadioGroup
+            value={infrastructureData.digitalMaturityLevel}
+            onValueChange={(value) => updateInfrastructureData({ digitalMaturityLevel: value })}
+            className="space-y-4"
+          >
+            {maturityLevels.map(level => (
+              <div key={level.id} className="flex items-start space-x-3 p-4 rounded-lg border hover:border-nowgo-blue/30 transition-colors">
+                <RadioGroupItem value={level.id} id={`maturity-${level.id}`} className="mt-1" />
+                <div className="flex-1">
+                  <Label htmlFor={`maturity-${level.id}`} className="font-semibold text-base cursor-pointer block">
+                    {level.label}
+                  </Label>
+                  <p className="text-sm text-muted-foreground mt-1">{level.description}</p>
+                  <p className="text-xs text-nowgo-blue mt-2">{level.details}</p>
+                </div>
+              </div>
+            ))}
+          </RadioGroup>
+        </div>
       </div>
 
-      <div className="flex justify-between mt-8">
+      <div className="flex justify-between mt-8 pt-6 border-t">
         <Button
           variant="outline"
           onClick={() => setCurrentStep(2)}
+          className="flex items-center gap-2"
         >
-          <ChevronLeft className="mr-2 h-4 w-4" /> Voltar
+          <ChevronLeft className="w-4 h-4" /> Voltar
         </Button>
         
         <Button
           onClick={handleNextStep}
-          className="bg-nowgo-blue hover:bg-nowgo-darkBlue text-white"
+          className="bg-nowgo-blue hover:bg-nowgo-darkBlue text-white flex items-center gap-2"
         >
-          Continuar <ChevronRight className="ml-2 h-4 w-4" />
+          Continuar <ChevronRight className="w-4 h-4" />
         </Button>
       </div>
     </div>

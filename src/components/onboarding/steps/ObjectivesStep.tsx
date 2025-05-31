@@ -14,7 +14,7 @@ const ObjectivesStep: React.FC = () => {
   const { objectivesData } = state;
   const { toast } = useToast();
 
-  const objectives = [
+  const mainObjectives = [
     { id: 'reduce-costs', label: 'Reduzir Custos' },
     { id: 'increase-revenue', label: 'Aumentar Receita' },
     { id: 'optimize-processes', label: 'Otimizar Processos' },
@@ -22,6 +22,8 @@ const ObjectivesStep: React.FC = () => {
     { id: 'develop-new-products', label: 'Desenvolver Novos Produtos' },
     { id: 'expand-markets', label: 'Expandir Mercados' },
     { id: 'transform-digital', label: 'Transformação Digital' },
+    { id: 'sustainability', label: 'Sustentabilidade' },
+    { id: 'innovation', label: 'Inovação' },
     { id: 'other', label: 'Outro' }
   ];
 
@@ -36,6 +38,8 @@ const ObjectivesStep: React.FC = () => {
     { id: 'operations', label: 'Operações' },
     { id: 'it', label: 'TI' },
     { id: 'innovation', label: 'Inovação' },
+    { id: 'strategy', label: 'Estratégia' },
+    { id: 'compliance', label: 'Compliance' }
   ];
 
   const handleObjectiveChange = (id: string, checked: boolean) => {
@@ -77,86 +81,108 @@ const ObjectivesStep: React.FC = () => {
 
   return (
     <div className="form-section">
-      <div className="mb-6">
-        <h2 className="text-2xl font-semibold text-nowgo-gray">Objetivos e Desafios</h2>
-        <p className="text-muted-foreground">Defina os principais objetivos da sua empresa e áreas prioritárias para IA</p>
+      <div className="mb-8">
+        <h2 className="text-3xl font-bold text-nowgo-gray mb-2">Objetivos e Desafios</h2>
+        <p className="text-muted-foreground text-lg">Defina os principais objetivos da sua empresa e áreas prioritárias para IA</p>
       </div>
 
-      <div className="form-full-row">
-        <Label className="mb-2 block">Principais Objetivos</Label>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-          {objectives.map(objective => (
-            <div key={objective.id} className="flex items-start space-x-2">
-              <Checkbox
-                id={`objective-${objective.id}`}
-                checked={objectivesData.mainObjectives.includes(objective.id)}
-                onCheckedChange={(checked) => handleObjectiveChange(objective.id, checked === true)}
-              />
-              <Label
-                htmlFor={`objective-${objective.id}`}
-                className="text-sm font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                {objective.label}
-              </Label>
-            </div>
-          ))}
-        </div>
-        {objectivesData.mainObjectives.includes('other') && (
-          <div className="mt-2">
-            <Input
-              placeholder="Descreva outro objetivo"
-              value={objectivesData.customObjective}
-              onChange={(e) => updateObjectivesData({ customObjective: e.target.value })}
-            />
+      <div className="space-y-8">
+        <div className="bg-white rounded-lg border p-6">
+          <Label className="text-lg font-semibold mb-4 block text-nowgo-gray">Principais Objetivos</Label>
+          <p className="text-sm text-muted-foreground mb-4">Selecione os objetivos estratégicos da sua empresa</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {mainObjectives.map(objective => (
+              <div key={objective.id} className="flex items-start space-x-3 p-3 rounded-md hover:bg-gray-50 transition-colors">
+                <Checkbox
+                  id={`objective-${objective.id}`}
+                  checked={objectivesData.mainObjectives.includes(objective.id)}
+                  onCheckedChange={(checked) => handleObjectiveChange(objective.id, checked === true)}
+                  className="mt-0.5"
+                />
+                <Label
+                  htmlFor={`objective-${objective.id}`}
+                  className="text-sm font-medium leading-relaxed cursor-pointer flex-1"
+                >
+                  {objective.label}
+                </Label>
+              </div>
+            ))}
           </div>
-        )}
-      </div>
-
-      <div className="form-full-row">
-        <Label htmlFor="challenges" className="mb-2 block">Principais Desafios</Label>
-        <Textarea
-          id="challenges"
-          placeholder="Descreva os principais desafios que sua empresa enfrenta atualmente"
-          className="min-h-[100px]"
-          value={objectivesData.challenges}
-          onChange={(e) => updateObjectivesData({ challenges: e.target.value })}
-        />
-      </div>
-
-      <div className="form-full-row">
-        <Label className="mb-2 block">Áreas Prioritárias para IA *</Label>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          {priorityAreas.map(area => (
-            <div key={area.id} className="flex items-start space-x-2">
-              <Checkbox
-                id={`priority-${area.id}`}
-                checked={objectivesData.priorityAreas.includes(area.id)}
-                onCheckedChange={(checked) => handlePriorityAreaChange(area.id, checked === true)}
-              />
-              <Label
-                htmlFor={`priority-${area.id}`}
-                className="text-sm font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                {area.label}
+          
+          {objectivesData.mainObjectives.includes('other') && (
+            <div className="mt-4">
+              <Label htmlFor="custom-objective" className="text-sm font-medium mb-2 block">
+                Especifique outro objetivo
               </Label>
+              <Input
+                id="custom-objective"
+                placeholder="Descreva outro objetivo estratégico"
+                value={objectivesData.customObjective}
+                onChange={(e) => updateObjectivesData({ customObjective: e.target.value })}
+                className="max-w-md"
+              />
             </div>
-          ))}
+          )}
+        </div>
+
+        <div className="bg-white rounded-lg border p-6">
+          <Label htmlFor="challenges" className="text-lg font-semibold mb-4 block text-nowgo-gray">
+            Principais Desafios
+          </Label>
+          <p className="text-sm text-muted-foreground mb-4">
+            Descreva os principais desafios que sua empresa enfrenta atualmente
+          </p>
+          <Textarea
+            id="challenges"
+            placeholder="Ex: Dificuldade em análise de grandes volumes de dados, processos manuais demorados, falta de integração entre sistemas..."
+            className="min-h-[120px] resize-none"
+            value={objectivesData.challenges}
+            onChange={(e) => updateObjectivesData({ challenges: e.target.value })}
+          />
+        </div>
+
+        <div className="bg-white rounded-lg border p-6">
+          <Label className="text-lg font-semibold mb-4 block text-nowgo-gray">
+            Áreas Prioritárias para IA *
+          </Label>
+          <p className="text-sm text-muted-foreground mb-4">
+            Selecione as áreas onde a inteligência artificial pode ter maior impacto
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {priorityAreas.map(area => (
+              <div key={area.id} className="flex items-start space-x-3 p-3 rounded-md hover:bg-gray-50 transition-colors">
+                <Checkbox
+                  id={`priority-${area.id}`}
+                  checked={objectivesData.priorityAreas.includes(area.id)}
+                  onCheckedChange={(checked) => handlePriorityAreaChange(area.id, checked === true)}
+                  className="mt-0.5"
+                />
+                <Label
+                  htmlFor={`priority-${area.id}`}
+                  className="text-sm font-medium leading-relaxed cursor-pointer flex-1"
+                >
+                  {area.label}
+                </Label>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
-      <div className="flex justify-between mt-8">
+      <div className="flex justify-between mt-8 pt-6 border-t">
         <Button
           variant="outline"
           onClick={() => setCurrentStep(1)}
+          className="flex items-center gap-2"
         >
-          <ChevronLeft className="mr-2 h-4 w-4" /> Voltar
+          <ChevronLeft className="w-4 h-4" /> Voltar
         </Button>
         
         <Button
           onClick={handleNextStep}
-          className="bg-nowgo-blue hover:bg-nowgo-darkBlue text-white"
+          className="bg-nowgo-blue hover:bg-nowgo-darkBlue text-white flex items-center gap-2"
         >
-          Continuar <ChevronRight className="ml-2 h-4 w-4" />
+          Continuar <ChevronRight className="w-4 h-4" />
         </Button>
       </div>
     </div>
