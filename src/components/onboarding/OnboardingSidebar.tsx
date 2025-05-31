@@ -43,14 +43,24 @@ const OnboardingSidebar: React.FC = () => {
   ];
 
   const handleStepClick = (step: number) => {
-    // Only allow navigation to completed steps or the current step + 1
-    const allowedNextStep = Object.entries(state.stepsCompleted)
-      .filter(([_, completed]) => completed)
-      .length + 1;
+    // Allow navigation to any step - let the user explore the form
+    // The validation will happen when they try to proceed to the next step
+    setCurrentStep(step);
+  };
+
+  const isStepAccessible = (stepId: number) => {
+    // Step 1 is always accessible
+    if (stepId === 1) return true;
     
-    if (step <= allowedNextStep) {
-      setCurrentStep(step);
-    }
+    // Allow access to the next step after the last completed step
+    const completedSteps = Object.entries(state.stepsCompleted)
+      .filter(([_, completed]) => completed)
+      .map(([step, _]) => parseInt(step));
+    
+    const maxCompletedStep = completedSteps.length > 0 ? Math.max(...completedSteps) : 0;
+    
+    // Allow access to completed steps + one more step ahead
+    return stepId <= maxCompletedStep + 1;
   };
 
   return (
@@ -64,10 +74,9 @@ const OnboardingSidebar: React.FC = () => {
       
       <div className="space-y-2">
         {sidebarItems.map(item => {
-          // Calculate allowedNextStep inside the map function scope so it's available
-          const allowedNextStep = Object.entries(state.stepsCompleted)
-            .filter(([_, completed]) => completed)
-            .length + 1;
+          const isAccessible = isStepAccessible(item.id);
+          const isActive = currentStep === item.id;
+          const isCompleted = isStepCompleted(item.id);
             
           return (
             <button
@@ -75,20 +84,21 @@ const OnboardingSidebar: React.FC = () => {
               onClick={() => handleStepClick(item.id)}
               className={cn(
                 "onboarding-sidebar-item w-full",
-                currentStep === item.id && "active",
-                isStepCompleted(item.id) ? "completed" : "pending"
+                isActive && "active",
+                isCompleted ? "completed" : "pending",
+                !isAccessible && "opacity-50 cursor-not-allowed"
               )}
-              disabled={!isStepCompleted(item.id) && item.id > allowedNextStep}
+              disabled={!isAccessible}
             >
               <span className="flex items-center justify-center w-8 h-8 rounded-full mr-3 bg-white text-nowgo-blue">
-                {isStepCompleted(item.id) ? <Check size={16} /> : <item.icon size={16} />}
+                {isCompleted ? <Check size={16} /> : <item.icon size={16} />}
               </span>
               <div className="text-left">
                 <div>{item.title}</div>
                 <div className="text-xs opacity-70">{item.description}</div>
               </div>
               
-              {isStepCompleted(item.id) && (
+              {isCompleted && (
                 <Badge variant="outline" className="ml-auto bg-green-50 text-green-600 border-green-200">
                   <Check size={12} className="mr-1" /> Completo
                 </Badge>
