@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useOnboarding } from '../OnboardingContext';
 import { Button } from '@/components/ui/button';
@@ -137,6 +136,9 @@ const PersonalizationStep: React.FC = () => {
     }
   };
 
+  // Get the selected role label for display
+  const selectedRole = llmRoles.find(role => role.value === personalizationData.llmRole);
+
   return (
     <div className="form-section">
       <div className="mb-8">
@@ -267,11 +269,13 @@ const PersonalizationStep: React.FC = () => {
             onValueChange={(value) => updatePersonalizationData({ llmRole: value })}
           >
             <SelectTrigger className="h-11">
-              <SelectValue placeholder="Select main role" />
+              <SelectValue placeholder="Select main role">
+                {selectedRole ? selectedRole.label : "Select main role"}
+              </SelectValue>
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-white border shadow-lg z-50">
               {llmRoles.map(role => (
-                <SelectItem key={role.value} value={role.value}>
+                <SelectItem key={role.value} value={role.value} className="cursor-pointer">
                   <div className="py-2">
                     <div className="font-medium">{role.label}</div>
                     <div className="text-xs text-muted-foreground">{role.description}</div>

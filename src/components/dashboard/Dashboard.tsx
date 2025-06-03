@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -9,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import jsPDF from 'jspdf';
+import UsageAnalytics from './UsageAnalytics';
 
 const Dashboard: React.FC = () => {
   const { state } = useOnboarding();
@@ -16,6 +16,7 @@ const Dashboard: React.FC = () => {
   const { toast } = useToast();
   const [chatMessage, setChatMessage] = useState('');
   const [chatHistory, setChatHistory] = useState<string[]>([]);
+  const [activeTab, setActiveTab] = useState('chat');
 
   // Generate suggestions based on user input
   const suggestedQuestions = [
@@ -55,6 +56,16 @@ const Dashboard: React.FC = () => {
     
     // Clear the message after sending
     setChatMessage('');
+  };
+
+  const handleSectionNavigation = (area: string) => {
+    const areaQuestion = `Tell me more about ${area} strategies and best practices for our ${companyData.industry} company.`;
+    setChatMessage(areaQuestion);
+    setActiveTab('chat');
+    toast({
+      title: "Section loaded",
+      description: `Question about ${area} has been prepared in the chat.`,
+    });
   };
 
   const generateInsightsReport = () => {
@@ -315,7 +326,7 @@ const Dashboard: React.FC = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
-          <Tabs defaultValue="chat" className="w-full">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList>
               <TabsTrigger value="chat">Chat</TabsTrigger>
               <TabsTrigger value="docs">Documents</TabsTrigger>
@@ -397,30 +408,10 @@ const Dashboard: React.FC = () => {
             </TabsContent>
             
             <TabsContent value="analytics" className="bg-white rounded-lg border p-6 shadow-sm">
-              <div className="space-y-4">
-                <h3 className="text-lg font-medium">Usage Analytics</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Queries by Area</CardTitle>
-                      <CardDescription>Distribution of queries by thematic area</CardDescription>
-                    </CardHeader>
-                    <CardContent className="h-[200px] flex items-center justify-center bg-muted">
-                      <p className="text-muted-foreground">Distribution chart</p>
-                    </CardContent>
-                  </Card>
-                  
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Usage by Period</CardTitle>
-                      <CardDescription>Query volume over time</CardDescription>
-                    </CardHeader>
-                    <CardContent className="h-[200px] flex items-center justify-center bg-muted">
-                      <p className="text-muted-foreground">Trend chart</p>
-                    </CardContent>
-                  </Card>
-                </div>
-              </div>
+              <UsageAnalytics 
+                priorityAreas={objectivesData.priorityAreas} 
+                chatHistory={chatHistory} 
+              />
             </TabsContent>
           </Tabs>
         </div>
@@ -461,7 +452,12 @@ const Dashboard: React.FC = () => {
             <CardContent>
               <div className="space-y-3">
                 {objectivesData.priorityAreas.slice(0, 5).map((area, index) => (
-                  <Badge key={index} variant="outline" className="mr-2 px-3 py-1 cursor-pointer hover:bg-secondary">
+                  <Badge 
+                    key={index} 
+                    variant="outline" 
+                    className="mr-2 px-3 py-1 cursor-pointer hover:bg-secondary"
+                    onClick={() => handleSectionNavigation(area)}
+                  >
                     {area.charAt(0).toUpperCase() + area.slice(1)}
                   </Badge>
                 ))}
