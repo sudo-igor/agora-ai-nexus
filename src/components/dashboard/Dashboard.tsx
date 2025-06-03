@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -18,26 +19,26 @@ const Dashboard: React.FC = () => {
 
   // Generate suggestions based on user input
   const suggestedQuestions = [
-    `Como podemos otimizar os processos de ${objectivesData.priorityAreas.includes('operations') ? 'operações' : 'negócio'} para reduzir custos?`,
-    `Quais estratégias de ${objectivesData.priorityAreas.includes('growth') ? 'crescimento' : 'expansão'} são recomendadas para empresas no setor de ${companyData.industry}?`,
-    `Como implementar melhores práticas de ${objectivesData.priorityAreas.includes('esg') ? 'ESG' : 'sustentabilidade'} em nossa organização?`,
-    `Quais são as tendências de ${personalizationData.primaryFocus.includes('innovation') ? 'inovação' : 'tecnologia'} mais relevantes para o nosso setor?`,
-    `Como podemos melhorar nossa estratégia de ${objectivesData.priorityAreas.includes('marketing') ? 'marketing' : 'comunicação'} para alcançar novos clientes?`
+    `How can we optimize ${objectivesData.priorityAreas.includes('operations') ? 'operations' : 'business'} processes to reduce costs?`,
+    `What ${objectivesData.priorityAreas.includes('growth') ? 'growth' : 'expansion'} strategies are recommended for companies in the ${companyData.industry} sector?`,
+    `How to implement best ${objectivesData.priorityAreas.includes('esg') ? 'ESG' : 'sustainability'} practices in our organization?`,
+    `What are the most relevant ${personalizationData.primaryFocus.includes('innovation') ? 'innovation' : 'technology'} trends for our sector?`,
+    `How can we improve our ${objectivesData.priorityAreas.includes('marketing') ? 'marketing' : 'communication'} strategy to reach new customers?`
   ];
 
   const handleSuggestedQuestionClick = (question: string) => {
     setChatMessage(question);
     toast({
-      title: "Pergunta carregada",
-      description: "A pergunta foi adicionada ao chat. Você pode editá-la antes de enviar.",
+      title: "Question loaded",
+      description: "The question was added to the chat. You can edit it before sending.",
     });
   };
 
   const handleSendMessage = () => {
     if (!chatMessage.trim()) {
       toast({
-        title: "Mensagem vazia",
-        description: "Por favor, digite uma mensagem antes de enviar.",
+        title: "Empty message",
+        description: "Please type a message before sending.",
         variant: "destructive",
       });
       return;
@@ -48,8 +49,8 @@ const Dashboard: React.FC = () => {
 
     // Simulate sending message
     toast({
-      title: "Mensagem enviada",
-      description: "Sua mensagem foi enviada para o assistente NowGoAI.",
+      title: "Message sent",
+      description: "Your message was sent to the NowGoAI assistant.",
     });
     
     // Clear the message after sending
@@ -58,31 +59,31 @@ const Dashboard: React.FC = () => {
 
   const generateInsightsReport = () => {
     const reportData = {
-      empresa: {
-        nome: companyData.name,
-        setor: companyData.industry,
-        estagio: companyData.stage,
-        funcionarios: companyData.employees,
-        pais: companyData.country
+      company: {
+        name: companyData.name,
+        industry: companyData.industry,
+        stage: companyData.stage,
+        employees: companyData.employees,
+        country: companyData.country
       },
-      objetivos: {
-        areasPrioritarias: objectivesData.priorityAreas,
-        desafios: objectivesData.challenges || 'Não especificado'
+      objectives: {
+        priorityAreas: objectivesData.priorityAreas,
+        challenges: objectivesData.challenges || 'Not specified'
       },
-      personalizacao: {
-        papel: personalizationData.llmRole,
-        focosPrimarios: personalizationData.primaryFocus,
-        documentosCarregados: personalizationData.documentUploads.length,
-        linksReferencia: personalizationData.documentUrls.filter(url => url).length
+      personalization: {
+        role: personalizationData.llmRole,
+        primaryFocus: personalizationData.primaryFocus,
+        documentsLoaded: personalizationData.documentUploads.length,
+        referenceLinks: personalizationData.documentUrls.filter(url => url).length
       },
-      usuario: {
-        nome: state.userProfileData.fullName,
-        cargo: state.userProfileData.position,
-        departamento: state.userProfileData.department,
-        nivelAcesso: state.userProfileData.accessLevel
+      user: {
+        name: state.userProfileData.fullName,
+        position: state.userProfileData.position,
+        department: state.userProfileData.department,
+        accessLevel: state.userProfileData.accessLevel
       },
       chatHistory: chatHistory,
-      dataGeracao: new Date().toLocaleString('pt-BR')
+      generationDate: new Date().toLocaleString('en-US')
     };
 
     return reportData;
@@ -101,79 +102,79 @@ const Dashboard: React.FC = () => {
       // Title
       pdf.setFontSize(20);
       pdf.setTextColor(40, 40, 40);
-      pdf.text('Relatório de Insights - NowGoAI', 20, 30);
+      pdf.text('NowGoAI Insights Report', 20, 30);
       
       // Date
       pdf.setFontSize(10);
       pdf.setTextColor(100, 100, 100);
-      pdf.text(`Gerado em: ${reportData.dataGeracao}`, 20, 40);
+      pdf.text(`Generated on: ${reportData.generationDate}`, 20, 40);
       
       let yPosition = 60;
       
       // Company Information Section
       pdf.setFontSize(16);
       pdf.setTextColor(40, 40, 40);
-      pdf.text('Informações da Empresa', 20, yPosition);
+      pdf.text('Company Information', 20, yPosition);
       yPosition += 15;
       
       pdf.setFontSize(11);
       pdf.setTextColor(60, 60, 60);
-      pdf.text(`Nome: ${reportData.empresa.nome}`, 25, yPosition);
+      pdf.text(`Name: ${reportData.company.name}`, 25, yPosition);
       yPosition += 8;
-      pdf.text(`Setor: ${reportData.empresa.setor}`, 25, yPosition);
+      pdf.text(`Industry: ${reportData.company.industry}`, 25, yPosition);
       yPosition += 8;
-      pdf.text(`Estágio: ${reportData.empresa.estagio}`, 25, yPosition);
+      pdf.text(`Stage: ${reportData.company.stage}`, 25, yPosition);
       yPosition += 8;
-      pdf.text(`Funcionários: ${reportData.empresa.funcionarios}`, 25, yPosition);
+      pdf.text(`Employees: ${reportData.company.employees}`, 25, yPosition);
       yPosition += 8;
-      pdf.text(`País: ${reportData.empresa.pais}`, 25, yPosition);
+      pdf.text(`Country: ${reportData.company.country}`, 25, yPosition);
       yPosition += 20;
       
       // Objectives Section
       pdf.setFontSize(16);
       pdf.setTextColor(40, 40, 40);
-      pdf.text('Objetivos e Prioridades', 20, yPosition);
+      pdf.text('Objectives and Priorities', 20, yPosition);
       yPosition += 15;
       
       pdf.setFontSize(11);
       pdf.setTextColor(60, 60, 60);
-      pdf.text(`Áreas Prioritárias: ${reportData.objetivos.areasPrioritarias.join(', ')}`, 25, yPosition);
+      pdf.text(`Priority Areas: ${reportData.objectives.priorityAreas.join(', ')}`, 25, yPosition);
       yPosition += 8;
-      pdf.text(`Principais Desafios: ${reportData.objetivos.desafios}`, 25, yPosition);
+      pdf.text(`Main Challenges: ${reportData.objectives.challenges}`, 25, yPosition);
       yPosition += 20;
       
       // LLM Configuration Section
       pdf.setFontSize(16);
       pdf.setTextColor(40, 40, 40);
-      pdf.text('Configuração do LLM', 20, yPosition);
+      pdf.text('LLM Configuration', 20, yPosition);
       yPosition += 15;
       
       pdf.setFontSize(11);
       pdf.setTextColor(60, 60, 60);
-      pdf.text(`Papel do Assistente: ${reportData.personalizacao.papel}`, 25, yPosition);
+      pdf.text(`Assistant Role: ${reportData.personalization.role}`, 25, yPosition);
       yPosition += 8;
-      pdf.text(`Focos Primários: ${reportData.personalizacao.focosPrimarios.join(', ')}`, 25, yPosition);
+      pdf.text(`Primary Focus: ${reportData.personalization.primaryFocus.join(', ')}`, 25, yPosition);
       yPosition += 8;
-      pdf.text(`Documentos Contextuais: ${reportData.personalizacao.documentosCarregados} arquivo(s)`, 25, yPosition);
+      pdf.text(`Context Documents: ${reportData.personalization.documentsLoaded} file(s)`, 25, yPosition);
       yPosition += 8;
-      pdf.text(`Links de Referência: ${reportData.personalizacao.linksReferencia} link(s)`, 25, yPosition);
+      pdf.text(`Reference Links: ${reportData.personalization.referenceLinks} link(s)`, 25, yPosition);
       yPosition += 20;
       
       // User Profile Section
       pdf.setFontSize(16);
       pdf.setTextColor(40, 40, 40);
-      pdf.text('Perfil do Usuário', 20, yPosition);
+      pdf.text('User Profile', 20, yPosition);
       yPosition += 15;
       
       pdf.setFontSize(11);
       pdf.setTextColor(60, 60, 60);
-      pdf.text(`Nome: ${reportData.usuario.nome}`, 25, yPosition);
+      pdf.text(`Name: ${reportData.user.name}`, 25, yPosition);
       yPosition += 8;
-      pdf.text(`Cargo: ${reportData.usuario.cargo}`, 25, yPosition);
+      pdf.text(`Position: ${reportData.user.position}`, 25, yPosition);
       yPosition += 8;
-      pdf.text(`Departamento: ${reportData.usuario.departamento}`, 25, yPosition);
+      pdf.text(`Department: ${reportData.user.department}`, 25, yPosition);
       yPosition += 8;
-      pdf.text(`Nível de Acesso: ${reportData.usuario.nivelAcesso}`, 25, yPosition);
+      pdf.text(`Access Level: ${reportData.user.accessLevel}`, 25, yPosition);
       yPosition += 20;
       
       // Chat History Section
@@ -185,7 +186,7 @@ const Dashboard: React.FC = () => {
         
         pdf.setFontSize(16);
         pdf.setTextColor(40, 40, 40);
-        pdf.text('Perguntas Enviadas no Chat', 20, yPosition);
+        pdf.text('Chat Questions Sent', 20, yPosition);
         yPosition += 15;
         
         pdf.setFontSize(11);
@@ -214,7 +215,7 @@ const Dashboard: React.FC = () => {
       
       pdf.setFontSize(16);
       pdf.setTextColor(40, 40, 40);
-      pdf.text('Perguntas Sugeridas para Explorar', 20, yPosition);
+      pdf.text('Suggested Questions to Explore', 20, yPosition);
       yPosition += 15;
       
       pdf.setFontSize(11);
@@ -239,8 +240,8 @@ const Dashboard: React.FC = () => {
         pdf.setPage(i);
         pdf.setFontSize(8);
         pdf.setTextColor(150, 150, 150);
-        pdf.text('Relatório gerado pelo NowGoAI Dashboard', 20, 285);
-        pdf.text(`Página ${i} de ${pageCount}`, 170, 285);
+        pdf.text('Report generated by NowGoAI Dashboard', 20, 285);
+        pdf.text(`Page ${i} of ${pageCount}`, 170, 285);
       }
       
       // Save the PDF
@@ -248,14 +249,14 @@ const Dashboard: React.FC = () => {
       pdf.save(fileName);
       
       toast({
-        title: "Insights exportados",
-        description: "O relatório PDF foi baixado com sucesso!",
+        title: "Insights exported",
+        description: "The PDF report was downloaded successfully!",
       });
     } catch (error) {
-      console.error('Erro ao gerar PDF:', error);
+      console.error('Error generating PDF:', error);
       toast({
-        title: "Erro ao exportar",
-        description: "Ocorreu um erro ao gerar o relatório PDF. Tente novamente.",
+        title: "Export error",
+        description: "An error occurred while generating the PDF report. Please try again.",
         variant: "destructive",
       });
     }
@@ -265,17 +266,17 @@ const Dashboard: React.FC = () => {
     <div className="p-6">
       <header className="mb-8">
         <h1 className="text-3xl font-bold text-nowgo-gray mb-2">
-          Bem-vindo ao seu Dashboard, {state.userProfileData.fullName.split(' ')[0]}
+          Welcome to your Dashboard, {state.userProfileData.fullName.split(' ')[0]}
         </h1>
         <p className="text-muted-foreground">
-          Seu LLM customizado para {companyData.name} está pronto para uso
+          Your customized LLM for {companyData.name} is ready to use
         </p>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Setor</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Industry</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold flex items-center">
@@ -287,7 +288,7 @@ const Dashboard: React.FC = () => {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Estágio da Empresa</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Company Stage</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold flex items-center">
@@ -299,14 +300,14 @@ const Dashboard: React.FC = () => {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Foco Principal</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Primary Focus</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold flex items-center">
               <Target className="mr-2 h-5 w-5 text-nowgo-blue" />
               {personalizationData.primaryFocus.length > 0 
                 ? personalizationData.primaryFocus[0].charAt(0).toUpperCase() + personalizationData.primaryFocus[0].slice(1) 
-                : 'Não definido'}
+                : 'Not defined'}
             </div>
           </CardContent>
         </Card>
@@ -317,8 +318,8 @@ const Dashboard: React.FC = () => {
           <Tabs defaultValue="chat" className="w-full">
             <TabsList>
               <TabsTrigger value="chat">Chat</TabsTrigger>
-              <TabsTrigger value="docs">Documentos</TabsTrigger>
-              <TabsTrigger value="analytics">Análise</TabsTrigger>
+              <TabsTrigger value="docs">Documents</TabsTrigger>
+              <TabsTrigger value="analytics">Analytics</TabsTrigger>
             </TabsList>
             <TabsContent value="chat" className="bg-white rounded-lg border p-6 shadow-sm">
               <div className="mb-4 space-y-4">
@@ -328,12 +329,12 @@ const Dashboard: React.FC = () => {
                   </div>
                   <div className="flex-1 rounded-lg bg-muted p-4">
                     <p className="text-sm">
-                      Olá, eu sou seu assistente NowGoAI personalizado para {companyData.name}. 
-                      Como posso ajudar você hoje como {personalizationData.llmRole === 'consultant' ? 'Consultor' : 
-                        personalizationData.llmRole === 'analyst' ? 'Analista' : 
-                        personalizationData.llmRole === 'writer' ? 'Redator' : 
-                        personalizationData.llmRole === 'legal-advisor' ? 'Assessor Jurídico' : 
-                        personalizationData.llmRole === 'strategist' ? 'Estrategista' : 'Coach'}?
+                      Hello, I am your personalized NowGoAI assistant for {companyData.name}. 
+                      How can I help you today as a {personalizationData.llmRole === 'consultant' ? 'Consultant' : 
+                        personalizationData.llmRole === 'analyst' ? 'Analyst' : 
+                        personalizationData.llmRole === 'writer' ? 'Writer' : 
+                        personalizationData.llmRole === 'legal-advisor' ? 'Legal Advisor' : 
+                        personalizationData.llmRole === 'strategist' ? 'Strategist' : 'Coach'}?
                     </p>
                   </div>
                 </div>
@@ -341,7 +342,7 @@ const Dashboard: React.FC = () => {
 
               <div className="mt-4">
                 <Textarea
-                  placeholder="Digite sua pergunta ou solicitação..."
+                  placeholder="Type your question or request..."
                   className="min-h-[100px]"
                   value={chatMessage}
                   onChange={(e) => setChatMessage(e.target.value)}
@@ -352,7 +353,7 @@ const Dashboard: React.FC = () => {
                     onClick={handleSendMessage}
                   >
                     <MessageSquare className="mr-2 h-4 w-4" />
-                    Enviar mensagem
+                    Send message
                   </Button>
                 </div>
               </div>
@@ -360,7 +361,7 @@ const Dashboard: React.FC = () => {
             
             <TabsContent value="docs" className="bg-white rounded-lg border p-6 shadow-sm">
               <div className="space-y-4">
-                <h3 className="text-lg font-medium">Documentos Contextuais</h3>
+                <h3 className="text-lg font-medium">Context Documents</h3>
                 {personalizationData.documentUploads.length > 0 ? (
                   <div className="space-y-2">
                     {personalizationData.documentUploads.map((file, index) => (
@@ -375,10 +376,10 @@ const Dashboard: React.FC = () => {
                     ))}
                   </div>
                 ) : (
-                  <p className="text-muted-foreground">Nenhum documento foi carregado.</p>
+                  <p className="text-muted-foreground">No documents were uploaded.</p>
                 )}
                 
-                <h3 className="text-lg font-medium pt-4">Links de Referência</h3>
+                <h3 className="text-lg font-medium pt-4">Reference Links</h3>
                 {personalizationData.documentUrls.filter(url => url).length > 0 ? (
                   <div className="space-y-2">
                     {personalizationData.documentUrls.filter(url => url).map((url, index) => (
@@ -390,32 +391,32 @@ const Dashboard: React.FC = () => {
                     ))}
                   </div>
                 ) : (
-                  <p className="text-muted-foreground">Nenhum link foi adicionado.</p>
+                  <p className="text-muted-foreground">No links were added.</p>
                 )}
               </div>
             </TabsContent>
             
             <TabsContent value="analytics" className="bg-white rounded-lg border p-6 shadow-sm">
               <div className="space-y-4">
-                <h3 className="text-lg font-medium">Análise de Uso</h3>
+                <h3 className="text-lg font-medium">Usage Analytics</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <Card>
                     <CardHeader>
-                      <CardTitle>Consultas por Área</CardTitle>
-                      <CardDescription>Distribuição de consultas por área temática</CardDescription>
+                      <CardTitle>Queries by Area</CardTitle>
+                      <CardDescription>Distribution of queries by thematic area</CardDescription>
                     </CardHeader>
                     <CardContent className="h-[200px] flex items-center justify-center bg-muted">
-                      <p className="text-muted-foreground">Gráfico de distribuição</p>
+                      <p className="text-muted-foreground">Distribution chart</p>
                     </CardContent>
                   </Card>
                   
                   <Card>
                     <CardHeader>
-                      <CardTitle>Uso por Período</CardTitle>
-                      <CardDescription>Volume de consultas ao longo do tempo</CardDescription>
+                      <CardTitle>Usage by Period</CardTitle>
+                      <CardDescription>Query volume over time</CardDescription>
                     </CardHeader>
                     <CardContent className="h-[200px] flex items-center justify-center bg-muted">
-                      <p className="text-muted-foreground">Gráfico de tendência</p>
+                      <p className="text-muted-foreground">Trend chart</p>
                     </CardContent>
                   </Card>
                 </div>
@@ -427,9 +428,9 @@ const Dashboard: React.FC = () => {
         <div className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Perguntas Sugeridas</CardTitle>
+              <CardTitle className="text-lg">Suggested Questions</CardTitle>
               <CardDescription>
-                Baseadas no seu perfil e objetivos
+                Based on your profile and objectives
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -452,9 +453,9 @@ const Dashboard: React.FC = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Navegação por Seção</CardTitle>
+              <CardTitle className="text-lg">Section Navigation</CardTitle>
               <CardDescription>
-                Acesse áreas específicas de conhecimento
+                Access specific knowledge areas
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -470,15 +471,15 @@ const Dashboard: React.FC = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Compartilhar Insights</CardTitle>
+              <CardTitle className="text-lg">Share Insights</CardTitle>
               <CardDescription>
-                Compartilhe com sua equipe
+                Share with your team
               </CardDescription>
             </CardHeader>
             <CardContent>
               <Button variant="outline" className="w-full" onClick={handleExportInsights}>
                 <Download className="mr-2 h-4 w-4" />
-                Exportar Insights
+                Export Insights
               </Button>
             </CardContent>
           </Card>

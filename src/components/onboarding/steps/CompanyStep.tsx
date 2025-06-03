@@ -9,13 +9,13 @@ import { useToast } from '@/hooks/use-toast';
 import { ChevronRight } from 'lucide-react';
 
 const industryOptions = [
-  'Tecnologia', 'Saúde', 'Finanças', 'Educação', 'Varejo', 
-  'Logística', 'Manufatura', 'Serviços', 'Energia', 'Agricultura',
-  'Construção', 'Mídia', 'Telecomunicações', 'Hotelaria', 'Outro'
+  'Technology', 'Healthcare', 'Finance', 'Education', 'Retail', 
+  'Logistics', 'Manufacturing', 'Services', 'Energy', 'Agriculture',
+  'Construction', 'Media', 'Telecommunications', 'Hospitality', 'Other'
 ];
 
 const stageOptions = [
-  'Ideação', 'Validação', 'Tração', 'Escala', 'Global'
+  'Ideation', 'Validation', 'Traction', 'Scale', 'Global'
 ];
 
 const CompanyStep: React.FC = () => {
@@ -29,8 +29,8 @@ const CompanyStep: React.FC = () => {
       setCurrentStep(2);
     } else {
       toast({
-        title: "Campos obrigatórios",
-        description: "Por favor, preencha todos os campos obrigatórios",
+        title: "Required fields",
+        description: "Please fill in all required fields",
         variant: "destructive",
       });
     }
@@ -39,23 +39,23 @@ const CompanyStep: React.FC = () => {
   return (
     <div className="form-section">
       <div className="mb-6">
-        <h2 className="text-2xl font-semibold text-nowgo-gray">Identificação da Empresa</h2>
-        <p className="text-muted-foreground">Complete as informações sobre a sua organização</p>
+        <h2 className="text-2xl font-semibold text-nowgo-gray">Company Information</h2>
+        <p className="text-muted-foreground">Complete the information about your organization</p>
       </div>
 
       <div className="form-row">
         <div className="space-y-2">
-          <Label htmlFor="company-name">Nome da Empresa *</Label>
+          <Label htmlFor="company-name">Company Name *</Label>
           <Input 
             id="company-name" 
-            placeholder="Digite o nome da empresa" 
+            placeholder="Enter company name" 
             value={companyData.name}
             onChange={(e) => updateCompanyData({ name: e.target.value })}
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="tax-id">CNPJ / Tax ID *</Label>
+          <Label htmlFor="tax-id">Tax ID / Registration Number *</Label>
           <Input 
             id="tax-id" 
             placeholder="00.000.000/0000-00" 
@@ -67,13 +67,13 @@ const CompanyStep: React.FC = () => {
 
       <div className="form-row">
         <div className="space-y-2">
-          <Label htmlFor="industry">Indústria / Setor *</Label>
+          <Label htmlFor="industry">Industry / Sector *</Label>
           <Select
             value={companyData.industry}
             onValueChange={(value) => updateCompanyData({ industry: value })}
           >
             <SelectTrigger id="industry">
-              <SelectValue placeholder="Selecione o setor" />
+              <SelectValue placeholder="Select industry" />
             </SelectTrigger>
             <SelectContent>
               {industryOptions.map((option) => (
@@ -86,13 +86,13 @@ const CompanyStep: React.FC = () => {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="employees">Número de Funcionários *</Label>
+          <Label htmlFor="employees">Number of Employees *</Label>
           <Select
             value={companyData.employees}
             onValueChange={(value) => updateCompanyData({ employees: value })}
           >
             <SelectTrigger id="employees">
-              <SelectValue placeholder="Selecione o número" />
+              <SelectValue placeholder="Select number" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="1-10">1-10</SelectItem>
@@ -100,7 +100,7 @@ const CompanyStep: React.FC = () => {
               <SelectItem value="51-200">51-200</SelectItem>
               <SelectItem value="201-500">201-500</SelectItem>
               <SelectItem value="501-1000">501-1000</SelectItem>
-              <SelectItem value="1000+">Mais de 1000</SelectItem>
+              <SelectItem value="1000+">More than 1000</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -108,20 +108,20 @@ const CompanyStep: React.FC = () => {
 
       <div className="form-row">
         <div className="space-y-2">
-          <Label htmlFor="country">País *</Label>
+          <Label htmlFor="country">Country *</Label>
           <Input
             id="country"
-            placeholder="País"
+            placeholder="Country"
             value={companyData.country}
             onChange={(e) => updateCompanyData({ country: e.target.value })}
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="state">Estado / Cidade</Label>
+          <Label htmlFor="state">State / City</Label>
           <Input
             id="state"
-            placeholder="Estado / Cidade"
+            placeholder="State / City"
             value={companyData.state}
             onChange={(e) => updateCompanyData({ state: e.target.value })}
           />
@@ -130,13 +130,13 @@ const CompanyStep: React.FC = () => {
 
       <div className="form-row">
         <div className="space-y-2">
-          <Label htmlFor="stage">Estágio da Empresa *</Label>
+          <Label htmlFor="stage">Company Stage *</Label>
           <Select
             value={companyData.stage}
             onValueChange={(value) => updateCompanyData({ stage: value })}
           >
             <SelectTrigger id="stage">
-              <SelectValue placeholder="Selecione o estágio" />
+              <SelectValue placeholder="Select stage" />
             </SelectTrigger>
             <SelectContent>
               {stageOptions.map((option) => (
@@ -154,7 +154,7 @@ const CompanyStep: React.FC = () => {
             size="lg"
             className="bg-nowgo-blue hover:bg-nowgo-darkBlue text-white"
           >
-            Continuar <ChevronRight className="ml-2 h-4 w-4" />
+            Continue <ChevronRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
       </div>

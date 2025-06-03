@@ -12,33 +12,33 @@ const OnboardingSidebar: React.FC = () => {
   const sidebarItems = [
     {
       id: 1,
-      title: 'Empresa',
+      title: 'Company',
       icon: Building,
-      description: 'Dados da organização'
+      description: 'Organization data'
     },
     {
       id: 2,
-      title: 'Objetivos',
+      title: 'Objectives',
       icon: Target,
-      description: 'Metas e desafios'
+      description: 'Goals and challenges'
     },
     {
       id: 3,
-      title: 'Infraestrutura',
+      title: 'Infrastructure',
       icon: Database,
-      description: 'Ambiente digital'
+      description: 'Digital environment'
     },
     {
       id: 4,
-      title: 'Usuário',
+      title: 'User',
       icon: User,
-      description: 'Perfil do usuário'
+      description: 'User profile'
     },
     {
       id: 5,
-      title: 'Personalização',
+      title: 'Personalization',
       icon: Settings,
-      description: 'Configuração do LLM'
+      description: 'LLM configuration'
     }
   ];
 
@@ -69,7 +69,7 @@ const OnboardingSidebar: React.FC = () => {
         <div className="flex items-center justify-center mb-6">
           <h2 className="text-nowgo-blue font-bold text-2xl">NowGoAI</h2>
         </div>
-        <p className="text-nowgo-gray text-sm mb-4 text-center">Onboarding inteligente</p>
+        <p className="text-nowgo-gray text-sm mb-4 text-center">Intelligent onboarding</p>
       </div>
       
       <div className="space-y-2">
@@ -100,7 +100,7 @@ const OnboardingSidebar: React.FC = () => {
               
               {isCompleted && (
                 <Badge variant="outline" className="ml-auto bg-green-50 text-green-600 border-green-200">
-                  <Check size={12} className="mr-1" /> Completo
+                  <Check size={12} className="mr-1" /> Complete
                 </Badge>
               )}
             </button>
@@ -111,7 +111,7 @@ const OnboardingSidebar: React.FC = () => {
       <div className="mt-auto pt-8">
         <div className="text-xs text-muted-foreground text-center">
           <p>NowGoAI © 2025</p>
-          <p>Customizando LLMs para o seu negócio</p>
+          <p>Customizing LLMs for your business</p>
         </div>
       </div>
     </div>

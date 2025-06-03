@@ -15,30 +15,30 @@ const ObjectivesStep: React.FC = () => {
   const { toast } = useToast();
 
   const mainObjectives = [
-    { id: 'reduce-costs', label: 'Reduzir Custos' },
-    { id: 'increase-revenue', label: 'Aumentar Receita' },
-    { id: 'optimize-processes', label: 'Otimizar Processos' },
-    { id: 'improve-customer-experience', label: 'Melhorar Experiência do Cliente' },
-    { id: 'develop-new-products', label: 'Desenvolver Novos Produtos' },
-    { id: 'expand-markets', label: 'Expandir Mercados' },
-    { id: 'transform-digital', label: 'Transformação Digital' },
-    { id: 'sustainability', label: 'Sustentabilidade' },
-    { id: 'innovation', label: 'Inovação' },
-    { id: 'other', label: 'Outro' }
+    { id: 'reduce-costs', label: 'Reduce Costs' },
+    { id: 'increase-revenue', label: 'Increase Revenue' },
+    { id: 'optimize-processes', label: 'Optimize Processes' },
+    { id: 'improve-customer-experience', label: 'Improve Customer Experience' },
+    { id: 'develop-new-products', label: 'Develop New Products' },
+    { id: 'expand-markets', label: 'Expand Markets' },
+    { id: 'transform-digital', label: 'Digital Transformation' },
+    { id: 'sustainability', label: 'Sustainability' },
+    { id: 'innovation', label: 'Innovation' },
+    { id: 'other', label: 'Other' }
   ];
 
   const priorityAreas = [
     { id: 'legal', label: 'Legal' },
-    { id: 'hr', label: 'RH' },
-    { id: 'growth', label: 'Crescimento' },
+    { id: 'hr', label: 'HR' },
+    { id: 'growth', label: 'Growth' },
     { id: 'esg', label: 'ESG' },
-    { id: 'sales', label: 'Vendas' },
+    { id: 'sales', label: 'Sales' },
     { id: 'marketing', label: 'Marketing' },
-    { id: 'finance', label: 'Finanças' },
-    { id: 'operations', label: 'Operações' },
-    { id: 'it', label: 'TI' },
-    { id: 'innovation', label: 'Inovação' },
-    { id: 'strategy', label: 'Estratégia' },
+    { id: 'finance', label: 'Finance' },
+    { id: 'operations', label: 'Operations' },
+    { id: 'it', label: 'IT' },
+    { id: 'innovation', label: 'Innovation' },
+    { id: 'strategy', label: 'Strategy' },
     { id: 'compliance', label: 'Compliance' }
   ];
 
@@ -72,8 +72,8 @@ const ObjectivesStep: React.FC = () => {
       setCurrentStep(3);
     } else {
       toast({
-        title: "Seleção obrigatória",
-        description: "Por favor, selecione ao menos uma área prioritária para IA",
+        title: "Required selection",
+        description: "Please select at least one priority area for AI",
         variant: "destructive",
       });
     }
@@ -82,14 +82,14 @@ const ObjectivesStep: React.FC = () => {
   return (
     <div className="form-section">
       <div className="mb-8">
-        <h2 className="text-3xl font-bold text-nowgo-gray mb-2">Objetivos e Desafios</h2>
-        <p className="text-muted-foreground text-lg">Defina os principais objetivos da sua empresa e áreas prioritárias para IA</p>
+        <h2 className="text-3xl font-bold text-nowgo-gray mb-2">Objectives and Challenges</h2>
+        <p className="text-muted-foreground text-lg">Define your company's main objectives and priority areas for AI</p>
       </div>
 
       <div className="space-y-8">
         <div className="bg-white rounded-lg border p-6">
-          <Label className="text-lg font-semibold mb-4 block text-nowgo-gray">Principais Objetivos</Label>
-          <p className="text-sm text-muted-foreground mb-4">Selecione os objetivos estratégicos da sua empresa</p>
+          <Label className="text-lg font-semibold mb-4 block text-nowgo-gray">Main Objectives</Label>
+          <p className="text-sm text-muted-foreground mb-4">Select your company's strategic objectives</p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {mainObjectives.map(objective => (
               <div key={objective.id} className="flex items-start space-x-3 p-3 rounded-md hover:bg-gray-50 transition-colors">
@@ -112,11 +112,11 @@ const ObjectivesStep: React.FC = () => {
           {objectivesData.mainObjectives.includes('other') && (
             <div className="mt-4">
               <Label htmlFor="custom-objective" className="text-sm font-medium mb-2 block">
-                Especifique outro objetivo
+                Specify other objective
               </Label>
               <Input
                 id="custom-objective"
-                placeholder="Descreva outro objetivo estratégico"
+                placeholder="Describe another strategic objective"
                 value={objectivesData.customObjective}
                 onChange={(e) => updateObjectivesData({ customObjective: e.target.value })}
                 className="max-w-md"
@@ -127,14 +127,14 @@ const ObjectivesStep: React.FC = () => {
 
         <div className="bg-white rounded-lg border p-6">
           <Label htmlFor="challenges" className="text-lg font-semibold mb-4 block text-nowgo-gray">
-            Principais Desafios
+            Main Challenges
           </Label>
           <p className="text-sm text-muted-foreground mb-4">
-            Descreva os principais desafios que sua empresa enfrenta atualmente
+            Describe the main challenges your company currently faces
           </p>
           <Textarea
             id="challenges"
-            placeholder="Ex: Dificuldade em análise de grandes volumes de dados, processos manuais demorados, falta de integração entre sistemas..."
+            placeholder="E.g., Difficulty analyzing large volumes of data, time-consuming manual processes, lack of system integration..."
             className="min-h-[120px] resize-none"
             value={objectivesData.challenges}
             onChange={(e) => updateObjectivesData({ challenges: e.target.value })}
@@ -143,10 +143,10 @@ const ObjectivesStep: React.FC = () => {
 
         <div className="bg-white rounded-lg border p-6">
           <Label className="text-lg font-semibold mb-4 block text-nowgo-gray">
-            Áreas Prioritárias para IA *
+            Priority Areas for AI *
           </Label>
           <p className="text-sm text-muted-foreground mb-4">
-            Selecione as áreas onde a inteligência artificial pode ter maior impacto
+            Select the areas where artificial intelligence can have the greatest impact
           </p>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {priorityAreas.map(area => (
@@ -175,14 +175,14 @@ const ObjectivesStep: React.FC = () => {
           onClick={() => setCurrentStep(1)}
           className="flex items-center gap-2"
         >
-          <ChevronLeft className="w-4 h-4" /> Voltar
+          <ChevronLeft className="w-4 h-4" /> Back
         </Button>
         
         <Button
           onClick={handleNextStep}
           className="bg-nowgo-blue hover:bg-nowgo-darkBlue text-white flex items-center gap-2"
         >
-          Continuar <ChevronRight className="w-4 h-4" />
+          Continue <ChevronRight className="w-4 h-4" />
         </Button>
       </div>
     </div>

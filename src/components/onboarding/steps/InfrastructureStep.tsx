@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useOnboarding } from '../OnboardingContext';
 import { Button } from '@/components/ui/button';
@@ -15,62 +14,62 @@ const InfrastructureStep: React.FC = () => {
   const { toast } = useToast();
 
   const toolsUsed = [
-    { id: 'crm', label: 'CRM (Salesforce, HubSpot, Pipedrive)', category: 'Vendas' },
-    { id: 'erp', label: 'ERP (SAP, Oracle, Totvs)', category: 'Gestão' },
-    { id: 'spreadsheets', label: 'Planilhas (Excel, Google Sheets)', category: 'Análise' },
-    { id: 'bi', label: 'BI Tools (Power BI, Tableau, Looker)', category: 'Análise' },
-    { id: 'project-management', label: 'Gestão de Projetos (Asana, Monday, Jira)', category: 'Produtividade' },
-    { id: 'accounting', label: 'Contabilidade (QuickBooks, Xero)', category: 'Financeiro' },
-    { id: 'hr-tools', label: 'RH (BambooHR, Workday)', category: 'Recursos Humanos' },
-    { id: 'other', label: 'Outras ferramentas', category: 'Outros' }
+    { id: 'crm', label: 'CRM (Salesforce, HubSpot, Pipedrive)', category: 'Sales' },
+    { id: 'erp', label: 'ERP (SAP, Oracle, Totvs)', category: 'Management' },
+    { id: 'spreadsheets', label: 'Spreadsheets (Excel, Google Sheets)', category: 'Analysis' },
+    { id: 'bi', label: 'BI Tools (Power BI, Tableau, Looker)', category: 'Analysis' },
+    { id: 'project-management', label: 'Project Management (Asana, Monday, Jira)', category: 'Productivity' },
+    { id: 'accounting', label: 'Accounting (QuickBooks, Xero)', category: 'Financial' },
+    { id: 'hr-tools', label: 'HR (BambooHR, Workday)', category: 'Human Resources' },
+    { id: 'other', label: 'Other tools', category: 'Others' }
   ];
 
   const databaseTypes = [
     { id: 'sql', label: 'SQL Server', description: 'Microsoft SQL Server' },
-    { id: 'mysql', label: 'MySQL', description: 'Sistema de gerenciamento open source' },
-    { id: 'postgresql', label: 'PostgreSQL', description: 'Banco de dados relacional avançado' },
-    { id: 'mongodb', label: 'MongoDB', description: 'Banco de dados NoSQL' },
-    { id: 'oracle', label: 'Oracle', description: 'Sistema empresarial da Oracle' },
-    { id: 'firebase', label: 'Firebase', description: 'Plataforma do Google' },
-    { id: 'none', label: 'Nenhum banco específico', description: 'Apenas arquivos ou planilhas' }
+    { id: 'mysql', label: 'MySQL', description: 'Open source management system' },
+    { id: 'postgresql', label: 'PostgreSQL', description: 'Advanced relational database' },
+    { id: 'mongodb', label: 'MongoDB', description: 'NoSQL database' },
+    { id: 'oracle', label: 'Oracle', description: 'Oracle enterprise system' },
+    { id: 'firebase', label: 'Firebase', description: 'Google platform' },
+    { id: 'none', label: 'No specific database', description: 'Only files or spreadsheets' }
   ];
 
   const apiIntegrations = [
-    { id: 'zapier', label: 'Zapier', description: 'Automação de workflows' },
-    { id: 'hubspot', label: 'HubSpot', description: 'CRM e Marketing' },
-    { id: 'notion', label: 'Notion', description: 'Workspace colaborativo' },
+    { id: 'zapier', label: 'Zapier', description: 'Workflow automation' },
+    { id: 'hubspot', label: 'HubSpot', description: 'CRM and Marketing' },
+    { id: 'notion', label: 'Notion', description: 'Collaborative workspace' },
     { id: 'power-bi', label: 'Power BI', description: 'Business Intelligence' },
-    { id: 'google-analytics', label: 'Google Analytics', description: 'Análise web' },
-    { id: 'slack', label: 'Slack', description: 'Comunicação empresarial' },
-    { id: 'microsoft-teams', label: 'Microsoft Teams', description: 'Colaboração Microsoft' },
-    { id: 'salesforce', label: 'Salesforce', description: 'CRM empresarial' },
-    { id: 'other', label: 'Outras integrações', description: 'APIs customizadas' }
+    { id: 'google-analytics', label: 'Google Analytics', description: 'Web analytics' },
+    { id: 'slack', label: 'Slack', description: 'Business communication' },
+    { id: 'microsoft-teams', label: 'Microsoft Teams', description: 'Microsoft collaboration' },
+    { id: 'salesforce', label: 'Salesforce', description: 'Enterprise CRM' },
+    { id: 'other', label: 'Other integrations', description: 'Custom APIs' }
   ];
 
   const maturityLevels = [
     { 
       id: 'beginner', 
-      label: 'Iniciante', 
-      description: 'Processos principalmente manuais, poucos sistemas digitais',
-      details: 'Planilhas, e-mails, documentos físicos'
+      label: 'Beginner', 
+      description: 'Mainly manual processes, few digital systems',
+      details: 'Spreadsheets, emails, physical documents'
     },
     { 
       id: 'intermediate', 
-      label: 'Intermediário', 
-      description: 'Alguns sistemas implementados, mas não integrados',
-      details: 'CRM, ERP básico, algumas automações'
+      label: 'Intermediate', 
+      description: 'Some systems implemented but not integrated',
+      details: 'CRM, basic ERP, some automation'
     },
     { 
       id: 'advanced', 
-      label: 'Avançado', 
-      description: 'Sistemas integrados com análise de dados',
-      details: 'APIs, dashboards, processos automatizados'
+      label: 'Advanced', 
+      description: 'Integrated systems with data analysis',
+      details: 'APIs, dashboards, automated processes'
     },
     { 
       id: 'expert', 
-      label: 'Especialista', 
-      description: 'Transformação digital completa e orientada por dados',
-      details: 'IA, machine learning, análise preditiva'
+      label: 'Expert', 
+      description: 'Complete digital transformation and data-driven',
+      details: 'AI, machine learning, predictive analytics'
     }
   ];
 
@@ -116,8 +115,8 @@ const InfrastructureStep: React.FC = () => {
       setCurrentStep(4);
     } else {
       toast({
-        title: "Seleção obrigatória",
-        description: "Por favor, selecione o nível de maturidade digital",
+        title: "Required selection",
+        description: "Please select the digital maturity level",
         variant: "destructive",
       });
     }
@@ -126,14 +125,14 @@ const InfrastructureStep: React.FC = () => {
   return (
     <div className="form-section">
       <div className="mb-8">
-        <h2 className="text-3xl font-bold text-nowgo-gray mb-2">Infraestrutura Digital</h2>
-        <p className="text-muted-foreground text-lg">Nos conte sobre o ambiente digital da sua empresa</p>
+        <h2 className="text-3xl font-bold text-nowgo-gray mb-2">Digital Infrastructure</h2>
+        <p className="text-muted-foreground text-lg">Tell us about your company's digital environment</p>
       </div>
 
       <div className="space-y-8">
         <div className="bg-white rounded-lg border p-6">
-          <Label className="text-lg font-semibold mb-4 block text-nowgo-gray">Ferramentas Utilizadas</Label>
-          <p className="text-sm text-muted-foreground mb-4">Selecione as principais ferramentas que sua empresa utiliza</p>
+          <Label className="text-lg font-semibold mb-4 block text-nowgo-gray">Tools Used</Label>
+          <p className="text-sm text-muted-foreground mb-4">Select the main tools your company uses</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {toolsUsed.map(tool => (
               <div key={tool.id} className="flex items-start space-x-3 p-3 rounded-md hover:bg-gray-50 transition-colors">
@@ -159,11 +158,11 @@ const InfrastructureStep: React.FC = () => {
           {infrastructureData.toolsUsed.includes('other') && (
             <div className="mt-4">
               <Label htmlFor="custom-tool" className="text-sm font-medium mb-2 block">
-                Especifique outras ferramentas
+                Specify other tools
               </Label>
               <Input
                 id="custom-tool"
-                placeholder="Descreva outras ferramentas utilizadas"
+                placeholder="Describe other tools used"
                 value={infrastructureData.customTool}
                 onChange={(e) => updateInfrastructureData({ customTool: e.target.value })}
                 className="max-w-md"
@@ -173,8 +172,8 @@ const InfrastructureStep: React.FC = () => {
         </div>
 
         <div className="bg-white rounded-lg border p-6">
-          <Label className="text-lg font-semibold mb-4 block text-nowgo-gray">Tipo de Banco de Dados</Label>
-          <p className="text-sm text-muted-foreground mb-4">Selecione os bancos de dados utilizados</p>
+          <Label className="text-lg font-semibold mb-4 block text-nowgo-gray">Database Type</Label>
+          <p className="text-sm text-muted-foreground mb-4">Select the databases used</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {databaseTypes.map(db => (
               <div key={db.id} className="flex items-start space-x-3 p-3 rounded-md hover:bg-gray-50 transition-colors">
@@ -199,8 +198,8 @@ const InfrastructureStep: React.FC = () => {
         </div>
 
         <div className="bg-white rounded-lg border p-6">
-          <Label className="text-lg font-semibold mb-4 block text-nowgo-gray">Integrações API</Label>
-          <p className="text-sm text-muted-foreground mb-4">Selecione as integrações existentes ou planejadas</p>
+          <Label className="text-lg font-semibold mb-4 block text-nowgo-gray">API Integrations</Label>
+          <p className="text-sm text-muted-foreground mb-4">Select existing or planned integrations</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {apiIntegrations.map(integration => (
               <div key={integration.id} className="flex items-start space-x-3 p-3 rounded-md hover:bg-gray-50 transition-colors">
@@ -226,11 +225,11 @@ const InfrastructureStep: React.FC = () => {
           {infrastructureData.apiIntegrations.includes('other') && (
             <div className="mt-4">
               <Label htmlFor="custom-integration" className="text-sm font-medium mb-2 block">
-                Especifique outras integrações
+                Specify other integrations
               </Label>
               <Input
                 id="custom-integration"
-                placeholder="Descreva outras integrações ou APIs utilizadas"
+                placeholder="Describe other integrations or APIs used"
                 value={infrastructureData.customIntegration}
                 onChange={(e) => updateInfrastructureData({ customIntegration: e.target.value })}
                 className="max-w-md"
@@ -241,10 +240,10 @@ const InfrastructureStep: React.FC = () => {
 
         <div className="bg-white rounded-lg border p-6">
           <Label className="text-lg font-semibold mb-4 block text-nowgo-gray">
-            Nível de Maturidade Digital *
+            Digital Maturity Level *
           </Label>
           <p className="text-sm text-muted-foreground mb-6">
-            Avalie o nível atual de digitalização da sua empresa
+            Assess your company's current level of digitization
           </p>
           <RadioGroup
             value={infrastructureData.digitalMaturityLevel}
@@ -273,14 +272,14 @@ const InfrastructureStep: React.FC = () => {
           onClick={() => setCurrentStep(2)}
           className="flex items-center gap-2"
         >
-          <ChevronLeft className="w-4 h-4" /> Voltar
+          <ChevronLeft className="w-4 h-4" /> Back
         </Button>
         
         <Button
           onClick={handleNextStep}
           className="bg-nowgo-blue hover:bg-nowgo-darkBlue text-white flex items-center gap-2"
         >
-          Continuar <ChevronRight className="w-4 h-4" />
+          Continue <ChevronRight className="w-4 h-4" />
         </Button>
       </div>
     </div>

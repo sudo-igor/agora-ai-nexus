@@ -17,19 +17,19 @@ const UserProfileStep: React.FC = () => {
     { 
       value: 'admin', 
       label: 'Admin', 
-      description: 'Acesso completo a todas as funcionalidades',
+      description: 'Full access to all features',
       icon: Shield
     },
     { 
       value: 'manager', 
       label: 'Manager', 
-      description: 'Acesso a relatórios e gestão de equipe',
+      description: 'Access to reports and team management',
       icon: User
     },
     { 
       value: 'contributor', 
       label: 'Contributor', 
-      description: 'Acesso às funcionalidades básicas',
+      description: 'Access to basic features',
       icon: User
     }
   ];
@@ -38,59 +38,59 @@ const UserProfileStep: React.FC = () => {
     { 
       value: 'formal', 
       label: 'Formal', 
-      description: 'Linguagem corporativa e protocolar',
-      example: '"Prezado usuário, gostaríamos de informar..."'
+      description: 'Corporate and protocol language',
+      example: '"Dear user, we would like to inform..."'
     },
     { 
       value: 'direct', 
-      label: 'Direto', 
-      description: 'Comunicação objetiva e clara',
-      example: '"Aqui estão os dados solicitados:"'
+      label: 'Direct', 
+      description: 'Objective and clear communication',
+      example: '"Here is the requested data:"'
     },
     { 
       value: 'empathetic', 
-      label: 'Empático', 
-      description: 'Tom acolhedor e compreensivo',
-      example: '"Entendo sua necessidade, vou ajudar você..."'
+      label: 'Empathetic', 
+      description: 'Welcoming and understanding tone',
+      example: '"I understand your need, I will help you..."'
     },
     { 
       value: 'casual', 
       label: 'Casual', 
-      description: 'Linguagem descontraída e amigável',
-      example: '"Oi! Vamos resolver isso juntos?"'
+      description: 'Relaxed and friendly language',
+      example: '"Hi! Let\'s solve this together?"'
     }
   ];
 
   const responseDepths = [
     { 
       value: 'simple', 
-      label: 'Simples', 
-      description: 'Respostas diretas e concisas',
-      details: 'Ideal para decisões rápidas'
+      label: 'Simple', 
+      description: 'Direct and concise responses',
+      details: 'Ideal for quick decisions'
     },
     { 
       value: 'technical', 
-      label: 'Técnico', 
-      description: 'Detalhes técnicos e específicos',
-      details: 'Para análises especializadas'
+      label: 'Technical', 
+      description: 'Technical and specific details',
+      details: 'For specialized analysis'
     },
     { 
       value: 'strategic', 
-      label: 'Estratégico', 
-      description: 'Visão de negócio e contexto amplo',
-      details: 'Para tomada de decisões estratégicas'
+      label: 'Strategic', 
+      description: 'Business vision and broad context',
+      details: 'For strategic decision making'
     },
     { 
       value: 'deep', 
-      label: 'Análise Profunda', 
-      description: 'Análise completa com múltiplas perspectivas',
-      details: 'Para estudos detalhados e relatórios'
+      label: 'Deep Analysis', 
+      description: 'Complete analysis with multiple perspectives',
+      details: 'For detailed studies and reports'
     }
   ];
 
   const departments = [
-    'Executivo', 'Vendas', 'Marketing', 'Finanças', 'RH', 'TI', 'Operações', 
-    'Legal', 'Produto', 'Atendimento', 'Estratégia', 'Inovação', 'Outro'
+    'Executive', 'Sales', 'Marketing', 'Finance', 'HR', 'IT', 'Operations', 
+    'Legal', 'Product', 'Customer Service', 'Strategy', 'Innovation', 'Other'
   ];
 
   const handleNextStep = () => {
@@ -99,8 +99,8 @@ const UserProfileStep: React.FC = () => {
       setCurrentStep(5);
     } else {
       toast({
-        title: "Campos obrigatórios",
-        description: "Por favor, preencha todos os campos obrigatórios",
+        title: "Required fields",
+        description: "Please fill in all required fields",
         variant: "destructive",
       });
     }
@@ -109,23 +109,23 @@ const UserProfileStep: React.FC = () => {
   return (
     <div className="form-section">
       <div className="mb-8">
-        <h2 className="text-3xl font-bold text-nowgo-gray mb-2">Perfil do Usuário</h2>
-        <p className="text-muted-foreground text-lg">Configure o perfil do usuário principal para personalização da IA</p>
+        <h2 className="text-3xl font-bold text-nowgo-gray mb-2">User Profile</h2>
+        <p className="text-muted-foreground text-lg">Configure the main user profile for AI personalization</p>
       </div>
 
       <div className="space-y-8">
         <div className="bg-white rounded-lg border p-6">
           <div className="flex items-center gap-2 mb-4">
             <User className="w-5 h-5 text-nowgo-blue" />
-            <Label className="text-lg font-semibold text-nowgo-gray">Informações Básicas</Label>
+            <Label className="text-lg font-semibold text-nowgo-gray">Basic Information</Label>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <Label htmlFor="full-name" className="text-sm font-medium">Nome Completo *</Label>
+              <Label htmlFor="full-name" className="text-sm font-medium">Full Name *</Label>
               <Input 
                 id="full-name" 
-                placeholder="Digite seu nome completo" 
+                placeholder="Enter your full name" 
                 value={userProfileData.fullName}
                 onChange={(e) => updateUserProfileData({ fullName: e.target.value })}
                 className="h-11"
@@ -133,10 +133,10 @@ const UserProfileStep: React.FC = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="position" className="text-sm font-medium">Cargo *</Label>
+              <Label htmlFor="position" className="text-sm font-medium">Position *</Label>
               <Input 
                 id="position" 
-                placeholder="Ex: Diretor de Vendas, Analista de Marketing" 
+                placeholder="E.g., Sales Director, Marketing Analyst" 
                 value={userProfileData.position}
                 onChange={(e) => updateUserProfileData({ position: e.target.value })}
                 className="h-11"
@@ -144,13 +144,13 @@ const UserProfileStep: React.FC = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="department" className="text-sm font-medium">Departamento *</Label>
+              <Label htmlFor="department" className="text-sm font-medium">Department *</Label>
               <Select
                 value={userProfileData.department}
                 onValueChange={(value) => updateUserProfileData({ department: value })}
               >
                 <SelectTrigger id="department" className="h-11">
-                  <SelectValue placeholder="Selecione o departamento" />
+                  <SelectValue placeholder="Select department" />
                 </SelectTrigger>
                 <SelectContent>
                   {departments.map(dept => (
@@ -163,13 +163,13 @@ const UserProfileStep: React.FC = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="access-level" className="text-sm font-medium">Nível de Acesso *</Label>
+              <Label htmlFor="access-level" className="text-sm font-medium">Access Level *</Label>
               <Select
                 value={userProfileData.accessLevel}
                 onValueChange={(value) => updateUserProfileData({ accessLevel: value })}
               >
                 <SelectTrigger id="access-level" className="h-11">
-                  <SelectValue placeholder="Selecione o nível" />
+                  <SelectValue placeholder="Select level" />
                 </SelectTrigger>
                 <SelectContent>
                   {accessLevels.map(level => (
@@ -192,18 +192,18 @@ const UserProfileStep: React.FC = () => {
         <div className="bg-white rounded-lg border p-6">
           <div className="flex items-center gap-2 mb-4">
             <MessageSquare className="w-5 h-5 text-nowgo-blue" />
-            <Label className="text-lg font-semibold text-nowgo-gray">Preferências de Comunicação</Label>
+            <Label className="text-lg font-semibold text-nowgo-gray">Communication Preferences</Label>
           </div>
           
           <div className="space-y-6">
             <div className="space-y-3">
-              <Label htmlFor="language-style" className="text-sm font-medium">Estilo de Linguagem</Label>
+              <Label htmlFor="language-style" className="text-sm font-medium">Language Style</Label>
               <Select
                 value={userProfileData.languageStyle}
                 onValueChange={(value) => updateUserProfileData({ languageStyle: value })}
               >
                 <SelectTrigger id="language-style" className="h-11">
-                  <SelectValue placeholder="Selecione o estilo preferido" />
+                  <SelectValue placeholder="Select preferred style" />
                 </SelectTrigger>
                 <SelectContent>
                   {languageStyles.map(style => (
@@ -224,17 +224,17 @@ const UserProfileStep: React.FC = () => {
         <div className="bg-white rounded-lg border p-6">
           <div className="flex items-center gap-2 mb-4">
             <Brain className="w-5 h-5 text-nowgo-blue" />
-            <Label className="text-lg font-semibold text-nowgo-gray">Preferências de Análise</Label>
+            <Label className="text-lg font-semibold text-nowgo-gray">Analysis Preferences</Label>
           </div>
           
           <div className="space-y-3">
-            <Label htmlFor="response-depth" className="text-sm font-medium">Profundidade das Respostas</Label>
+            <Label htmlFor="response-depth" className="text-sm font-medium">Response Depth</Label>
             <Select
               value={userProfileData.responseDepth}
               onValueChange={(value) => updateUserProfileData({ responseDepth: value })}
             >
               <SelectTrigger id="response-depth" className="h-11">
-                <SelectValue placeholder="Selecione o nível de detalhe" />
+                <SelectValue placeholder="Select detail level" />
               </SelectTrigger>
               <SelectContent>
                 {responseDepths.map(depth => (
@@ -258,14 +258,14 @@ const UserProfileStep: React.FC = () => {
           onClick={() => setCurrentStep(3)}
           className="flex items-center gap-2"
         >
-          <ChevronLeft className="w-4 h-4" /> Voltar
+          <ChevronLeft className="w-4 h-4" /> Back
         </Button>
         
         <Button
           onClick={handleNextStep}
           className="bg-nowgo-blue hover:bg-nowgo-darkBlue text-white flex items-center gap-2"
         >
-          Continuar <ChevronRight className="w-4 h-4" />
+          Continue <ChevronRight className="w-4 h-4" />
         </Button>
       </div>
     </div>
