@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -15,6 +14,7 @@ const Dashboard: React.FC = () => {
   const { companyData, objectivesData, personalizationData } = state;
   const { toast } = useToast();
   const [chatMessage, setChatMessage] = useState('');
+  const [chatHistory, setChatHistory] = useState<string[]>([]);
 
   // Generate suggestions based on user input
   const suggestedQuestions = [
@@ -42,6 +42,9 @@ const Dashboard: React.FC = () => {
       });
       return;
     }
+
+    // Add message to chat history
+    setChatHistory(prev => [...prev, chatMessage.trim()]);
 
     // Simulate sending message
     toast({
@@ -78,6 +81,7 @@ const Dashboard: React.FC = () => {
         departamento: state.userProfileData.department,
         nivelAcesso: state.userProfileData.accessLevel
       },
+      chatHistory: chatHistory,
       dataGeracao: new Date().toLocaleString('pt-BR')
     };
 
@@ -172,6 +176,36 @@ const Dashboard: React.FC = () => {
       pdf.text(`Nível de Acesso: ${reportData.usuario.nivelAcesso}`, 25, yPosition);
       yPosition += 20;
       
+      // Chat History Section
+      if (reportData.chatHistory.length > 0) {
+        if (yPosition > 240) {
+          pdf.addPage();
+          yPosition = 30;
+        }
+        
+        pdf.setFontSize(16);
+        pdf.setTextColor(40, 40, 40);
+        pdf.text('Perguntas Enviadas no Chat', 20, yPosition);
+        yPosition += 15;
+        
+        pdf.setFontSize(11);
+        pdf.setTextColor(60, 60, 60);
+        reportData.chatHistory.forEach((message, index) => {
+          if (yPosition > 270) {
+            pdf.addPage();
+            yPosition = 30;
+          }
+          
+          const lines = pdf.splitTextToSize(`${index + 1}. ${message}`, 170);
+          lines.forEach((line: string) => {
+            pdf.text(line, 25, yPosition);
+            yPosition += 6;
+          });
+          yPosition += 5;
+        });
+        yPosition += 10;
+      }
+
       // Suggested Questions Section
       if (yPosition > 250) {
         pdf.addPage();
