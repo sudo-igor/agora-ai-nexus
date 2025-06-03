@@ -1,16 +1,19 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useOnboarding } from '../onboarding/OnboardingContext';
-import { BrainCircuit, Building, FileQuestion, MessageSquare, Share, BarChart3, Target } from 'lucide-react';
+import { BrainCircuit, Building, FileQuestion, MessageSquare, Share, BarChart3, Target, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/hooks/use-toast';
 
 const Dashboard: React.FC = () => {
   const { state } = useOnboarding();
   const { companyData, objectivesData, personalizationData } = state;
+  const { toast } = useToast();
+  const [chatMessage, setChatMessage] = useState('');
 
   // Generate suggestions based on user input
   const suggestedQuestions = [
@@ -20,6 +23,127 @@ const Dashboard: React.FC = () => {
     `Quais são as tendências de ${personalizationData.primaryFocus.includes('innovation') ? 'inovação' : 'tecnologia'} mais relevantes para o nosso setor?`,
     `Como podemos melhorar nossa estratégia de ${objectivesData.priorityAreas.includes('marketing') ? 'marketing' : 'comunicação'} para alcançar novos clientes?`
   ];
+
+  const handleSuggestedQuestionClick = (question: string) => {
+    setChatMessage(question);
+    toast({
+      title: "Pergunta carregada",
+      description: "A pergunta foi adicionada ao chat. Você pode editá-la antes de enviar.",
+    });
+  };
+
+  const handleSendMessage = () => {
+    if (!chatMessage.trim()) {
+      toast({
+        title: "Mensagem vazia",
+        description: "Por favor, digite uma mensagem antes de enviar.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Simulate sending message
+    toast({
+      title: "Mensagem enviada",
+      description: "Sua mensagem foi enviada para o assistente NowGoAI.",
+    });
+    
+    // Clear the message after sending
+    setChatMessage('');
+  };
+
+  const generateInsightsReport = () => {
+    const reportData = {
+      empresa: {
+        nome: companyData.name,
+        setor: companyData.industry,
+        estagio: companyData.stage,
+        funcionarios: companyData.employees,
+        pais: companyData.country
+      },
+      objetivos: {
+        areasPrioritarias: objectivesData.priorityAreas,
+        desafios: objectivesData.challenges || 'Não especificado'
+      },
+      personalizacao: {
+        papel: personalizationData.llmRole,
+        focosPrimarios: personalizationData.primaryFocus,
+        documentosCarregados: personalizationData.documentUploads.length,
+        linksReferencia: personalizationData.documentUrls.filter(url => url).length
+      },
+      usuario: {
+        nome: state.userProfileData.fullName,
+        cargo: state.userProfileData.position,
+        departamento: state.userProfileData.department,
+        nivelAcesso: state.userProfileData.accessLevel
+      },
+      dataGeracao: new Date().toLocaleString('pt-BR')
+    };
+
+    const reportContent = `
+# Relatório de Insights - NowGoAI
+Gerado em: ${reportData.dataGeracao}
+
+## Informações da Empresa
+- **Nome:** ${reportData.empresa.nome}
+- **Setor:** ${reportData.empresa.setor}
+- **Estágio:** ${reportData.empresa.estagio}
+- **Funcionários:** ${reportData.empresa.funcionarios}
+- **País:** ${reportData.empresa.pais}
+
+## Objetivos e Prioridades
+- **Áreas Prioritárias:** ${reportData.objetivos.areasPrioritarias.join(', ')}
+- **Principais Desafios:** ${reportData.objetivos.desafios}
+
+## Configuração do LLM
+- **Papel do Assistente:** ${reportData.personalizacao.papel}
+- **Focos Primários:** ${reportData.personalizacao.focosPrimarios.join(', ')}
+- **Documentos Contextuais:** ${reportData.personalizacao.documentosCarregados} arquivo(s)
+- **Links de Referência:** ${reportData.personalizacao.linksReferencia} link(s)
+
+## Perfil do Usuário
+- **Nome:** ${reportData.usuario.nome}
+- **Cargo:** ${reportData.usuario.cargo}
+- **Departamento:** ${reportData.usuario.departamento}
+- **Nível de Acesso:** ${reportData.usuario.nivelAcesso}
+
+## Perguntas Sugeridas para Explorar
+${suggestedQuestions.map((q, i) => `${i + 1}. ${q}`).join('\n')}
+
+---
+Relatório gerado pelo NowGoAI Dashboard
+    `.trim();
+
+    return reportContent;
+  };
+
+  const handleExportInsights = () => {
+    try {
+      const reportContent = generateInsightsReport();
+      const blob = new Blob([reportContent], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `insights-${companyData.name.replace(/\s+/g, '-').toLowerCase()}-${new Date().toISOString().split('T')[0]}.txt`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      URL.revokeObjectURL(url);
+      
+      toast({
+        title: "Insights exportados",
+        description: "O relatório foi baixado com sucesso!",
+      });
+    } catch (error) {
+      toast({
+        title: "Erro ao exportar",
+        description: "Ocorreu um erro ao gerar o relatório. Tente novamente.",
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <div className="p-6">
@@ -103,9 +227,14 @@ const Dashboard: React.FC = () => {
                 <Textarea
                   placeholder="Digite sua pergunta ou solicitação..."
                   className="min-h-[100px]"
+                  value={chatMessage}
+                  onChange={(e) => setChatMessage(e.target.value)}
                 />
                 <div className="flex justify-end mt-2">
-                  <Button className="bg-nowgo-blue hover:bg-nowgo-darkBlue text-white">
+                  <Button 
+                    className="bg-nowgo-blue hover:bg-nowgo-darkBlue text-white"
+                    onClick={handleSendMessage}
+                  >
                     <MessageSquare className="mr-2 h-4 w-4" />
                     Enviar mensagem
                   </Button>
@@ -190,7 +319,11 @@ const Dashboard: React.FC = () => {
             <CardContent>
               <div className="space-y-2">
                 {suggestedQuestions.map((question, index) => (
-                  <div key={index} className="p-2 border rounded-md hover:bg-secondary cursor-pointer">
+                  <div 
+                    key={index} 
+                    className="p-2 border rounded-md hover:bg-secondary cursor-pointer transition-colors"
+                    onClick={() => handleSuggestedQuestionClick(question)}
+                  >
                     <div className="flex items-start">
                       <FileQuestion className="h-4 w-4 mr-2 mt-1 text-nowgo-blue" />
                       <p className="text-sm">{question}</p>
@@ -227,8 +360,8 @@ const Dashboard: React.FC = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button variant="outline" className="w-full">
-                <Share className="mr-2 h-4 w-4" />
+              <Button variant="outline" className="w-full" onClick={handleExportInsights}>
+                <Download className="mr-2 h-4 w-4" />
                 Exportar Insights
               </Button>
             </CardContent>
