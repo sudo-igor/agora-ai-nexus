@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
+import jsPDF from 'jspdf';
 
 const Dashboard: React.FC = () => {
   const { state } = useOnboarding();
@@ -80,66 +81,147 @@ const Dashboard: React.FC = () => {
       dataGeracao: new Date().toLocaleString('pt-BR')
     };
 
-    const reportContent = `
-# Relatório de Insights - NowGoAI
-Gerado em: ${reportData.dataGeracao}
-
-## Informações da Empresa
-- **Nome:** ${reportData.empresa.nome}
-- **Setor:** ${reportData.empresa.setor}
-- **Estágio:** ${reportData.empresa.estagio}
-- **Funcionários:** ${reportData.empresa.funcionarios}
-- **País:** ${reportData.empresa.pais}
-
-## Objetivos e Prioridades
-- **Áreas Prioritárias:** ${reportData.objetivos.areasPrioritarias.join(', ')}
-- **Principais Desafios:** ${reportData.objetivos.desafios}
-
-## Configuração do LLM
-- **Papel do Assistente:** ${reportData.personalizacao.papel}
-- **Focos Primários:** ${reportData.personalizacao.focosPrimarios.join(', ')}
-- **Documentos Contextuais:** ${reportData.personalizacao.documentosCarregados} arquivo(s)
-- **Links de Referência:** ${reportData.personalizacao.linksReferencia} link(s)
-
-## Perfil do Usuário
-- **Nome:** ${reportData.usuario.nome}
-- **Cargo:** ${reportData.usuario.cargo}
-- **Departamento:** ${reportData.usuario.departamento}
-- **Nível de Acesso:** ${reportData.usuario.nivelAcesso}
-
-## Perguntas Sugeridas para Explorar
-${suggestedQuestions.map((q, i) => `${i + 1}. ${q}`).join('\n')}
-
----
-Relatório gerado pelo NowGoAI Dashboard
-    `.trim();
-
-    return reportContent;
+    return reportData;
   };
 
   const handleExportInsights = () => {
     try {
-      const reportContent = generateInsightsReport();
-      const blob = new Blob([reportContent], { type: 'text/plain;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
+      const reportData = generateInsightsReport();
       
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `insights-${companyData.name.replace(/\s+/g, '-').toLowerCase()}-${new Date().toISOString().split('T')[0]}.txt`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      // Create new PDF document
+      const pdf = new jsPDF();
       
-      URL.revokeObjectURL(url);
+      // Set font
+      pdf.setFont('helvetica');
+      
+      // Title
+      pdf.setFontSize(20);
+      pdf.setTextColor(40, 40, 40);
+      pdf.text('Relatório de Insights - NowGoAI', 20, 30);
+      
+      // Date
+      pdf.setFontSize(10);
+      pdf.setTextColor(100, 100, 100);
+      pdf.text(`Gerado em: ${reportData.dataGeracao}`, 20, 40);
+      
+      let yPosition = 60;
+      
+      // Company Information Section
+      pdf.setFontSize(16);
+      pdf.setTextColor(40, 40, 40);
+      pdf.text('Informações da Empresa', 20, yPosition);
+      yPosition += 15;
+      
+      pdf.setFontSize(11);
+      pdf.setTextColor(60, 60, 60);
+      pdf.text(`Nome: ${reportData.empresa.nome}`, 25, yPosition);
+      yPosition += 8;
+      pdf.text(`Setor: ${reportData.empresa.setor}`, 25, yPosition);
+      yPosition += 8;
+      pdf.text(`Estágio: ${reportData.empresa.estagio}`, 25, yPosition);
+      yPosition += 8;
+      pdf.text(`Funcionários: ${reportData.empresa.funcionarios}`, 25, yPosition);
+      yPosition += 8;
+      pdf.text(`País: ${reportData.empresa.pais}`, 25, yPosition);
+      yPosition += 20;
+      
+      // Objectives Section
+      pdf.setFontSize(16);
+      pdf.setTextColor(40, 40, 40);
+      pdf.text('Objetivos e Prioridades', 20, yPosition);
+      yPosition += 15;
+      
+      pdf.setFontSize(11);
+      pdf.setTextColor(60, 60, 60);
+      pdf.text(`Áreas Prioritárias: ${reportData.objetivos.areasPrioritarias.join(', ')}`, 25, yPosition);
+      yPosition += 8;
+      pdf.text(`Principais Desafios: ${reportData.objetivos.desafios}`, 25, yPosition);
+      yPosition += 20;
+      
+      // LLM Configuration Section
+      pdf.setFontSize(16);
+      pdf.setTextColor(40, 40, 40);
+      pdf.text('Configuração do LLM', 20, yPosition);
+      yPosition += 15;
+      
+      pdf.setFontSize(11);
+      pdf.setTextColor(60, 60, 60);
+      pdf.text(`Papel do Assistente: ${reportData.personalizacao.papel}`, 25, yPosition);
+      yPosition += 8;
+      pdf.text(`Focos Primários: ${reportData.personalizacao.focosPrimarios.join(', ')}`, 25, yPosition);
+      yPosition += 8;
+      pdf.text(`Documentos Contextuais: ${reportData.personalizacao.documentosCarregados} arquivo(s)`, 25, yPosition);
+      yPosition += 8;
+      pdf.text(`Links de Referência: ${reportData.personalizacao.linksReferencia} link(s)`, 25, yPosition);
+      yPosition += 20;
+      
+      // User Profile Section
+      pdf.setFontSize(16);
+      pdf.setTextColor(40, 40, 40);
+      pdf.text('Perfil do Usuário', 20, yPosition);
+      yPosition += 15;
+      
+      pdf.setFontSize(11);
+      pdf.setTextColor(60, 60, 60);
+      pdf.text(`Nome: ${reportData.usuario.nome}`, 25, yPosition);
+      yPosition += 8;
+      pdf.text(`Cargo: ${reportData.usuario.cargo}`, 25, yPosition);
+      yPosition += 8;
+      pdf.text(`Departamento: ${reportData.usuario.departamento}`, 25, yPosition);
+      yPosition += 8;
+      pdf.text(`Nível de Acesso: ${reportData.usuario.nivelAcesso}`, 25, yPosition);
+      yPosition += 20;
+      
+      // Suggested Questions Section
+      if (yPosition > 250) {
+        pdf.addPage();
+        yPosition = 30;
+      }
+      
+      pdf.setFontSize(16);
+      pdf.setTextColor(40, 40, 40);
+      pdf.text('Perguntas Sugeridas para Explorar', 20, yPosition);
+      yPosition += 15;
+      
+      pdf.setFontSize(11);
+      pdf.setTextColor(60, 60, 60);
+      suggestedQuestions.forEach((question, index) => {
+        if (yPosition > 270) {
+          pdf.addPage();
+          yPosition = 30;
+        }
+        
+        const lines = pdf.splitTextToSize(`${index + 1}. ${question}`, 170);
+        lines.forEach((line: string) => {
+          pdf.text(line, 25, yPosition);
+          yPosition += 6;
+        });
+        yPosition += 5;
+      });
+      
+      // Footer
+      const pageCount = pdf.getNumberOfPages();
+      for (let i = 1; i <= pageCount; i++) {
+        pdf.setPage(i);
+        pdf.setFontSize(8);
+        pdf.setTextColor(150, 150, 150);
+        pdf.text('Relatório gerado pelo NowGoAI Dashboard', 20, 285);
+        pdf.text(`Página ${i} de ${pageCount}`, 170, 285);
+      }
+      
+      // Save the PDF
+      const fileName = `insights-${companyData.name.replace(/\s+/g, '-').toLowerCase()}-${new Date().toISOString().split('T')[0]}.pdf`;
+      pdf.save(fileName);
       
       toast({
         title: "Insights exportados",
-        description: "O relatório foi baixado com sucesso!",
+        description: "O relatório PDF foi baixado com sucesso!",
       });
     } catch (error) {
+      console.error('Erro ao gerar PDF:', error);
       toast({
         title: "Erro ao exportar",
-        description: "Ocorreu um erro ao gerar o relatório. Tente novamente.",
+        description: "Ocorreu um erro ao gerar o relatório PDF. Tente novamente.",
         variant: "destructive",
       });
     }
